@@ -12,11 +12,12 @@ use Illuminate\Notifications\Notifiable;
  * User model.
  *
  * Attributes:
- * - id: int
- * - name: string
- * - email: string
- * - password: string
- * - address: string
+ * - id: int — primary key, uniquely identifies the user across the system.
+ * - name: string — display name, shown throughout the app and admin panel.
+ * - email: string — used as the login identifier and for account communication.
+ * - password: string — hashed credential used to authenticate the user.
+ * - address: string — physical address, used for orders/shipping information.
+ * - role: string — access level ("admin" or "user"), used to gate access to the admin panel.
  */
 class User extends Authenticatable
 {
@@ -131,5 +132,21 @@ class User extends Authenticatable
     public function setAddress(?string $address): void
     {
         $this->attributes['address'] = $address;
+    }
+
+    /**
+     * Get the user role (e.g. "admin" or "user").
+     */
+    public function getRole(): string
+    {
+        return $this->attributes['role'];
+    }
+
+    /**
+     * Set the user role (e.g. "admin" or "user").
+     */
+    public function setRole(string $role): void
+    {
+        $this->attributes['role'] = $role;
     }
 }
