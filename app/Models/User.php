@@ -12,9 +12,9 @@ use Illuminate\Notifications\Notifiable;
  * User model.
  *
  * Attributes:
- * - id: int
- * - name: string
- * - email: string
+ * - id: int 
+ * - name: string 
+ * - email: string 
  * - password: string
  * - address: string
  */
