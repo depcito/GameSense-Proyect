@@ -38,21 +38,21 @@
 
                 <div class="navbar-nav ms-auto">
 
-                    <a class="nav-link active" href="{{ route('home.index') }}">Home</a>
+                    <a class="nav-link active" href="{{ route('home.index') }}">Inicio</a>
 
-                    <a class="nav-link active " href="">Categories</a>
+                    <a class="nav-link active " href="">Categorias</a>
 
-                    <a class="nav-link active" href="">Products</a>
+                    <a class="nav-link active" href="">Productos</a>
                     <div class="vr bg-white mx-2 d-none d-lg-block"></div>
-                    <a role="button" class="nav-link active" onclick="document.getElementById('logout').submit();">Logout</a>
+                    <a role="button" class="nav-link active" onclick="document.getElementById('logout').submit();">Cerrar sesión</a>
                     @csrf
 
                     </form>
                     
 
-                    <a class="nav-link active" href="">Contact</a>
+                    <a class="nav-link active" href="">Contactanos</a>
 
-                    <a class="nav-link active" href="">Create Product</a>
+                    <a class="nav-link active" href="">Crear producto</a>
 
 
                 </div>
@@ -64,7 +64,7 @@
     </nav>
 
     <header class="masthead bg-primary text-white text-center py-4">
-        
+
     </header>
     <!-- header -->
 
