@@ -43,17 +43,24 @@
                     <a class="nav-link active " href="">Categorias</a>
 
                     <a class="nav-link active" href="">Productos</a>
-                    <div class="vr bg-white mx-2 d-none d-lg-block"></div>
-                    <a role="button" class="nav-link active" onclick="document.getElementById('logout').submit();">Cerrar sesión</a>
-                    @csrf
-
-                    </form>
-                    
 
                     <a class="nav-link active" href="">Contactanos</a>
 
                     <a class="nav-link active" href="">Crear producto</a>
 
+                    <div class="vr bg-white mx-2 d-none d-lg-block"></div>
+                    @guest
+
+                    <a class="nav-link active" href="{{ route('login') }}">Iniciar sesión</a>
+
+                    <a class="nav-link active" href="{{ route('register') }}">Registrarse</a>
+                    @else
+                    <form id="logout" action="{{ route('logout') }}" method="POST">
+                        <a role="button" class="nav-link active"
+                            onclick="document.getElementById('logout').submit();">Cerrar sesión</a>
+                        @csrf
+                    </form>
+                    @endguest
 
                 </div>
 
