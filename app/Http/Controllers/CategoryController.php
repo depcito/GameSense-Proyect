@@ -35,6 +35,7 @@ class CategoryController extends Controller
         return redirect()->route('category.index');
     }
 
+
     public function show(int $id): View
     {
         $viewData = [
