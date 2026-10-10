@@ -28,7 +28,7 @@
 
                     <div class="category-cover d-flex align-items-center justify-content-center">
                         <h4 class="category-name text-center">
-                            {{ $product->getName() }}
+                            {{ $product->getTitle() }}
                         </h4>
                     </div>
 
