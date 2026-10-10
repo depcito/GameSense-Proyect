@@ -38,7 +38,8 @@ class CategoryController extends Controller
     public function show(int $id): View
     {
         $viewData = [
-            'category' => Category::findOrFail($id),
+            'title' => 'Detalles de la categoría',
+            'category' => Category::with('products')->findOrFail($id),
         ];
 
         return view('category.show', ['viewData' => $viewData]);
