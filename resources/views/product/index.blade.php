@@ -26,7 +26,7 @@
                         </p>
 
                         <p class="fw-bold mb-1">
-                            Precio: ${{ number_format($product->getPrice(), 2, ',', '.') }}
+                            Precio: ${{ number_format($product->getPrice(), 0, ',', '.') }} COP
                         </p>
 
                         <p class="text-muted small mb-0">

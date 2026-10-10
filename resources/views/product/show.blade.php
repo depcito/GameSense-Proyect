@@ -26,7 +26,7 @@
 
                 <p>
                     <strong>Precio:</strong>
-                    ${{ number_format($viewData['product']->getPrice(), 2, ',', '.') }}
+                    ${{ number_format($viewData['product']->getPrice(), 0, ',', '.') }} COP
                 </p>
 
                 <p>
