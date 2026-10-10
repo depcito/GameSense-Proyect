@@ -40,9 +40,9 @@
 
                     <a class="nav-link active" href="{{ route('home.index') }}">Inicio</a>
 
-                    <a class="nav-link active " href="">Categorias</a>
+                    <a class="nav-link active " href="{{ route('category.index') }}">Categorias</a>
 
-                    <a class="nav-link active" href="">Productos</a>
+                    <a class="nav-link active" href="{{ route('product.index') }}">Productos</a>
 
                     <a class="nav-link active" href="">Contactanos</a>
 
