@@ -10,16 +10,19 @@ class CategoryController extends Controller
 {
     public function index(): View
     {
-        $viewData = ['categories' => Category::all(),];
+        $viewData = [
+            'title' => 'Categories',
+            'categories' => Category::all(),
+        ];
 
-        return view('categories.index', ['viewData' => $viewData]);
+        return view('category.index', ['viewData' => $viewData]);
     }
 
     public function create(): View
     {
         $viewData = [];
 
-        return view('categories.create', ['viewData' => $viewData]);
+        return view('category.create', ['viewData' => $viewData]);
     }
 
     public function save(Request $request)
@@ -29,7 +32,7 @@ class CategoryController extends Controller
         $category->setDescription($request->input('description'));
         $category->save();
 
-        return redirect()->route('categories.index');
+        return redirect()->route('category.index');
     }
 
     public function show(int $id): View
@@ -38,6 +41,6 @@ class CategoryController extends Controller
             'category' => Category::findOrFail($id),
         ];
 
-        return view('categories.show', ['viewData' => $viewData]);
+        return view('category.show', ['viewData' => $viewData]);
     }
 }
