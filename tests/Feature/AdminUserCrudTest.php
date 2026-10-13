@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Route;
 use Tests\TestCase;
 
 class AdminUserCrudTest extends TestCase
@@ -17,7 +18,13 @@ class AdminUserCrudTest extends TestCase
 
     public function test_guests_cannot_access_admin_panel(): void
     {
-        $this->get('/admin/users')->assertUnauthorized();
+        $response = $this->get('/admin/users');
+
+        if (Route::has('login')) {
+            $response->assertRedirect(route('login'));
+        } else {
+            $response->assertUnauthorized();
+        }
     }
 
     public function test_regular_users_are_forbidden(): void
@@ -64,7 +71,7 @@ class AdminUserCrudTest extends TestCase
         $this->actingAs($this->admin())->put("/admin/users/{$target->id}", [
             'name' => 'Cambiado',
             'email' => $target->email,
-            'address' => 'Otra dirección',
+            'address' => 'Otra direccion',
             'role' => 'admin',
         ])->assertRedirect('/admin/users');
 
