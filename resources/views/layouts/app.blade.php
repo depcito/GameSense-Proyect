@@ -1,4 +1,3 @@
-
 <!doctype html>
 <html lang="es">
 
@@ -9,8 +8,7 @@
     <link
         href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
         rel="stylesheet"
-        crossorigin="anonymous"
-    />
+        crossorigin="anonymous" />
 
     <link href="{{ asset('/css/app.css') }}" rel="stylesheet" />
 
@@ -34,8 +32,7 @@
                 data-bs-target="#navbarNavAltMarkup"
                 aria-controls="navbarNavAltMarkup"
                 aria-expanded="false"
-                aria-label="Abrir menú de navegación"
-            >
+                aria-label="Abrir menú de navegación">
                 <span class="navbar-toggler-icon"></span>
             </button>
 
@@ -57,29 +54,31 @@
                     <a class="nav-link" href="#">
                         Contáctanos
                     </a>
-
-                    <a class="nav-link" href="{{ route('product.create') }}">
-                        Crear producto
-                    </a>
+                    @auth
+                    @if (auth()->user()->role === 'admin')
+                        <a class="nav-link" href="{{ route('category.create') }}"> Administrar categorias </a>
+                        <a class="nav-link" href="{{ route('product.create') }}"> Administrar productos </a>
+                    @endif
+                    @endauth
 
                     <div class="vr bg-white mx-2 d-none d-lg-block"></div>
 
                     @guest
-                        <a class="nav-link" href="{{ route('login') }}">
-                            Iniciar sesión
-                        </a>
+                    <a class="nav-link" href="{{ route('login') }}">
+                        Iniciar sesión
+                    </a>
 
-                        <a class="nav-link" href="{{ route('register') }}">
-                            Registrarse
-                        </a>
+                    <a class="nav-link" href="{{ route('register') }}">
+                        Registrarse
+                    </a>
                     @else
-                        <form id="logout" action="{{ route('logout') }}" method="POST">
-                            @csrf
+                    <form id="logout" action="{{ route('logout') }}" method="POST">
+                        @csrf
 
-                            <button type="submit" class="nav-link border-0 bg-transparent">
-                                Cerrar sesión
-                            </button>
-                        </form>
+                        <button type="submit" class="nav-link border-0 bg-transparent">
+                            Cerrar sesión
+                        </button>
+                    </form>
                     @endguest
 
                 </div>
@@ -106,8 +105,8 @@
 
     <script
         src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
-        crossorigin="anonymous"
-    ></script>
+        crossorigin="anonymous"></script>
 
 </body>
+
 </html>
