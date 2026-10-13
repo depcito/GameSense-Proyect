@@ -54,15 +54,14 @@
                     <a class="nav-link" href="#">
                         Contáctanos
                     </a>
+
+                    <div class="vr bg-white mx-2 d-none d-lg-block"></div>
                     @auth
                     @if (auth()->user()->role === 'admin')
                         <a class="nav-link" href="{{ route('category.create') }}"> Administrar categorias </a>
                         <a class="nav-link" href="{{ route('product.create') }}"> Administrar productos </a>
                     @endif
                     @endauth
-
-                    <div class="vr bg-white mx-2 d-none d-lg-block"></div>
-
                     @guest
                     <a class="nav-link" href="{{ route('login') }}">
                         Iniciar sesión
@@ -74,12 +73,13 @@
                     @else
                     <form id="logout" action="{{ route('logout') }}" method="POST">
                         @csrf
-
+                        
                         <button type="submit" class="nav-link border-0 bg-transparent">
                             Cerrar sesión
                         </button>
                     </form>
                     @endguest
+                    
 
                 </div>
             </div>
