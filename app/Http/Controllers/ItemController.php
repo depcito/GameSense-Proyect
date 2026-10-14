@@ -53,7 +53,7 @@ class ItemController extends Controller
         $order = $this->ownedOrder((int) $validated['order_id']);
         $product = Product::findOrFail($validated['product_id']);
 
-        $item = new Item();
+        $item = new Item;
 
         $item->setQuantity($validated['quantity']);
         // The price is copied so later changes to the product do not alter past orders.
