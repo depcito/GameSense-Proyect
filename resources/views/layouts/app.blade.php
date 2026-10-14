@@ -54,7 +54,6 @@
                     <a class="nav-link" href="#">
                         Contáctanos
                     </a>
-
                     <div class="vr bg-white mx-2 d-none d-lg-block"></div>
                     @auth
                     @if (auth()->user()->role === 'admin')

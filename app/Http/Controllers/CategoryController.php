@@ -20,7 +20,7 @@ class CategoryController extends Controller
 
     public function create(): View
     {
-        $viewData = [];
+        $viewData = ['title' => 'Categories',];
 
         return view('category.create', ['viewData' => $viewData]);
     }
