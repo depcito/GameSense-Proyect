@@ -52,7 +52,7 @@ class ReviewController extends Controller
             'product_id' => ['required', 'integer', 'exists:products,id'],
         ]);
 
-        $review = new Review();
+        $review = new Review;
 
         $review->setRating($validated['rating']);
         $review->setComment($validated['comment']);
