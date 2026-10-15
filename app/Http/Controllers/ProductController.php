@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
+
+
 
 class ProductController extends Controller
 {
@@ -23,11 +26,11 @@ class ProductController extends Controller
     {
         $viewData = [
             'title' => 'Create product',
+            'categories' => Category::all(),
         ];
 
         return view('product.create', ['viewData' => $viewData]);
     }
-
     public function save(Request $request): RedirectResponse
     {
         $product = new Product();
