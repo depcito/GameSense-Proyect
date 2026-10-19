@@ -56,6 +56,7 @@
                     </a>
                     <div class="vr bg-white mx-2 d-none d-lg-block"></div>
                     @auth
+                    <a class="nav-link" href="{{ route('payment.index') }}"> Pagos </a>
                     @if (auth()->user()->role === 'admin')
                         <a class="nav-link" href="{{ route('category.create') }}"> Administrar categorias </a>
                         <a class="nav-link" href="{{ route('product.create') }}"> Administrar productos </a>
