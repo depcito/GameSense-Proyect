@@ -14,20 +14,17 @@ use Illuminate\View\View;
 class PaymentController extends Controller
 {
     /**
-     * List payments. Admins see every payment, users only see their own.
+     * List the payments made by the authenticated user.
      */
     public function index(): View
     {
-        $user = Auth::user();
-        $query = Payment::with(['order', 'user'])->latest('date')->latest('id');
-
-        if ($user->getRole() !== 'admin') {
-            $query->where('user_id', $user->getId());
-        }
-
         $viewData = [
             'title' => 'Pagos',
-            'payments' => $query->get(),
+            'payments' => Payment::with(['order', 'user'])
+                ->where('user_id', Auth::id())
+                ->latest('date')
+                ->latest('id')
+                ->get(),
         ];
 
         return view('payment.index', ['viewData' => $viewData]);
@@ -124,54 +121,10 @@ class PaymentController extends Controller
     }
 
     /**
-     * Only admins can confirm or reject a pending payment.
-     */
-    public function updateStatus(Request $request, int $id): RedirectResponse
-    {
-        $validated = $request->validate([
-            'status' => ['required', 'string', Rule::in([Payment::STATUS_COMPLETED, Payment::STATUS_FAILED])],
-        ]);
-
-        $updated = DB::transaction(function () use ($id, $validated) {
-            $payment = Payment::lockForUpdate()->findOrFail($id);
-
-            if ($payment->getStatus() !== Payment::STATUS_PENDING) {
-                return false;
-            }
-
-            $payment->setStatus($validated['status']);
-            $payment->save();
-
-            if ($validated['status'] === Payment::STATUS_COMPLETED) {
-                $order = $payment->order;
-                $order->setStatus('Pagado');
-                $order->save();
-            }
-
-            return true;
-        });
-
-        if (! $updated) {
-            return redirect()
-                ->route('payment.show', ['id' => $id])
-                ->withErrors(['status' => 'Solo se puede cambiar el estado de un pago pendiente.']);
-        }
-
-        return redirect()
-            ->route('payment.show', ['id' => $id])
-            ->with('success', 'Estado del pago actualizado.');
-    }
-
-    /**
-     * Only the owner of the payment (or an admin) can see it.
+     * Only the owner of the payment can see it. Admins manage payments from the admin panel.
      */
     private function authorizeAccess(Payment $payment): void
     {
-        $user = Auth::user();
-
-        abort_unless(
-            $payment->user_id === $user->getId() || $user->getRole() === 'admin',
-            403
-        );
+        abort_unless($payment->user_id === Auth::id(), 403);
     }
 }

@@ -57,27 +57,6 @@
                     {{ $viewData['payment']->getUser()?->getName() ?? 'Usuario eliminado' }}
                 </p>
 
-                @if (auth()->user()->role === 'admin' && $viewData['payment']->getStatus() === 'Pendiente')
-                    <hr>
-
-                    <form
-                        method="POST"
-                        action="{{ route('payment.updateStatus', ['id' => $viewData['payment']->getId()]) }}"
-                        class="d-flex gap-2"
-                    >
-                        @csrf
-                        @method('PATCH')
-
-                        <button type="submit" name="status" value="Completado" class="btn btn-primary">
-                            Confirmar pago
-                        </button>
-
-                        <button type="submit" name="status" value="Fallido" class="btn btn-outline-danger">
-                            Rechazar pago
-                        </button>
-                    </form>
-                @endif
-
                 <a href="{{ route('payment.index') }}" class="btn btn-outline-secondary mt-3">
                     Volver a los pagos
                 </a>
