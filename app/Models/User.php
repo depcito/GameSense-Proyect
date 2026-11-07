@@ -18,7 +18,10 @@ use Illuminate\Notifications\Notifiable;
  * - password: string — hashed credential used to authenticate the user.
  * - address: string — physical address, used for orders/shipping information.
  * - role: string — access level ("admin" or "user"), used to gate access to the admin panel.
+ * - created_at: datetime — contains the user creation date.
+ * - updated_at: datetime — contains the user last update date.
  */
+
 class User extends Authenticatable
 {
     /** @use HasFactory<UserFactory> */
