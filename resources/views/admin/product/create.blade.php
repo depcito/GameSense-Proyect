@@ -125,7 +125,7 @@
                             Crear producto
                         </button>
 
-                        <a href="{{ route('product.index') }}" class="btn btn-secondary">
+                        <a href="{{ route('admin.product.index') }}" class="btn btn-secondary">
                             Cancelar
                         </a>
                     </form>

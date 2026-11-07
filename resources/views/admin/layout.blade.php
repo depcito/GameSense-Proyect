@@ -11,98 +11,147 @@
         crossorigin="anonymous" />
 
     <title>@yield('title', __('Panel de administración')) - GameSense</title>
+
+    <style>
+        body {
+            min-height: 100vh;
+        }
+
+        .admin-sidebar {
+            min-height: 100vh;
+            background-color: #212529;
+            padding: 25px 15px;
+        }
+
+        .admin-sidebar .nav-link {
+            color: #adb5bd;
+            padding: 12px 15px;
+            border-radius: 5px;
+            margin-bottom: 5px;
+        }
+
+        .admin-sidebar .nav-link:hover,
+        .admin-sidebar .nav-link.active {
+            background-color: #343a40;
+            color: #ffffff;
+        }
+
+        .admin-content {
+            padding: 30px;
+        }
+
+        .admin-brand {
+            color: #ffffff;
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 35px;
+        }
+
+        .sidebar-section {
+            color: #6c757d;
+            font-size: 12px;
+            text-transform: uppercase;
+            margin: 20px 15px 10px;
+        }
+    </style>
 </head>
 
 <body class="bg-light">
 
-    <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
-        <div class="container">
+    <div class="container-fluid">
+        <div class="row">
 
-            <a class="navbar-brand" href="{{ route('admin.users.index') }}">
-                GameSense · {{ __('Administración') }}
-            </a>
+            <!-- Sidebar -->
+            <aside class="col-md-3 col-lg-2 admin-sidebar">
 
-            <!-- Hamburger button -->
-            <button
-                class="navbar-toggler"
-                type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#adminNavbar"
-                aria-controls="adminNavbar"
-                aria-expanded="false"
-                aria-label="{{ __('Abrir menú de navegación') }}">
+                <div class="admin-brand">
+                    GameSense
+                    <small class="d-block text-white-50 fs-6">
+                        Administración
+                    </small>
+                </div>
 
-                <span class="navbar-toggler-icon"></span>
-            </button>
+                @auth
+                    @if (auth()->user()->getRole() === 'admin')
 
-            <!-- Navigation menu -->
-            <div class="collapse navbar-collapse" id="adminNavbar">
+                        <p class="sidebar-section">Principal</p>
 
-                <div class="navbar-nav ms-auto">
+                        <nav class="nav flex-column">
 
-                    @auth
-                        @if (auth()->user()->getRole() === 'admin')
-
-                            <a class="nav-link" href="{{ route('home.index') }}">
-                                {{ __('Volver al inicio') }}
+                            <a
+                                href="{{ route('home.index') }}"
+                                class="nav-link">
+                                Volver a la tienda
                             </a>
 
-                            <a class="nav-link" href="{{ route('admin.users.index') }}">
-                                {{ __('Administrar usuarios') }}
+                        </nav>
+
+                        <p class="sidebar-section">Gestión</p>
+
+                        <nav class="nav flex-column">
+
+                            <a
+                                href="{{ route('admin.users.index') }}"
+                                class="nav-link {{ request()->routeIs('admin.users.*') ? 'active' : '' }}">
+                                Administrar usuarios
                             </a>
 
-                            <a class="nav-link" href="{{ route('admin.category.create') }}">
-                                {{ __('Administrar categorías') }}
+                            <a
+                                href="{{ route('admin.category.index') }}"
+                                class="nav-link {{ request()->routeIs('admin.category.*') ? 'active' : '' }}">
+                                Administrar categorías
                             </a>
 
-                            <a class="nav-link" href="{{ route('admin.product.create') }}">
-                                {{ __('Administrar productos') }}
+                            <a
+                                href="{{ route('admin.product.index') }}"
+                                class="nav-link {{ request()->routeIs('admin.product.*') ? 'active' : '' }}">
+                                Administrar productos
                             </a>
 
-                        @endif
-                    @endauth
+                        </nav>
 
-                    <div class="d-flex align-items-center gap-3 ms-lg-3">
+                    @endif
+                @endauth
 
-                        <span class="text-white-50">
-                            {{ auth()->user()->name }}
-                        </span>
+                <div class="mt-5 pt-3 border-top border-secondary">
 
-                        <form method="POST" action="{{ route('logout') }}" class="m-0">
-                            @csrf
+                    <p class="text-white-50 small mb-2">
+                        {{ auth()->user()->name }}
+                    </p>
 
-                            <button type="submit" class="btn btn-outline-light btn-sm">
-                                {{ __('Cerrar sesión') }}
-                            </button>
-                        </form>
+                    <form method="POST" action="{{ route('logout') }}">
+                        @csrf
 
-                    </div>
+                        <button type="submit" class="btn btn-outline-light btn-sm w-100">
+                            Cerrar sesión
+                        </button>
+                    </form>
 
                 </div>
-            </div>
+
+            </aside>
+
+            <!-- Main content -->
+            <main class="col-md-9 col-lg-10 admin-content">
+
+                @if (session('success'))
+                    <div class="alert alert-success">
+                        {{ session('success') }}
+                    </div>
+                @endif
+
+                @if (session('error'))
+                    <div class="alert alert-danger">
+                        {{ session('error') }}
+                    </div>
+                @endif
+
+                @yield('content')
+
+            </main>
 
         </div>
-    </nav>
-
-    <!-- Main content -->
-    <main class="container pb-5">
-
-        @if (session('success'))
-            <div class="alert alert-success">
-                {{ session('success') }}
-            </div>
-        @endif
-
-        @if (session('error'))
-            <div class="alert alert-danger">
-                {{ session('error') }}
-            </div>
-        @endif
-
-        @yield('content')
-
-    </main>
+    </div>
 
     <!-- Bootstrap JavaScript -->
     <script
