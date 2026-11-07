@@ -108,6 +108,12 @@
                                 Administrar productos
                             </a>
 
+                            <a
+                                href="{{ route('admin.payment.index') }}"
+                                class="nav-link {{ request()->routeIs('admin.payment.*') ? 'active' : '' }}">
+                                Administrar pagos
+                            </a>
+
                         </nav>
 
                     @endif

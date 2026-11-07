@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\PaymentController;
 use App\Http\Controllers\Admin\ProductController;
 use Illuminate\Support\Facades\Route;
 
@@ -27,3 +28,8 @@ Route::get('/products/{id}', [ProductController::class, 'show'])->name('product.
 Route::get('/products/{id}/edit', [ProductController::class, 'edit'])->name('product.edit');
 Route::put('/products/{id}', [ProductController::class, 'update'])->name('product.update');
 Route::delete('/products/{id}', [ProductController::class, 'destroy'])->name('product.destroy');
+
+// Payments
+Route::get('/payments', [PaymentController::class, 'index'])->name('payment.index');
+Route::get('/payments/{id}', [PaymentController::class, 'show'])->name('payment.show');
+Route::patch('/payments/{id}/status', [PaymentController::class, 'updateStatus'])->name('payment.updateStatus');
