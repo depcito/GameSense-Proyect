@@ -11,13 +11,16 @@ class Category extends Model
 {
     use HasFactory;
 
-    /**
-     * CATEGORY ATTRIBUTES
-     * $this->attributes['id'] - int - contains the category primary key (id)
-     * $this->attributes['name'] - string - contains the category name
-     * $this->attributes['description'] - string - contains the category description
-     * $this->products - Product[] - contains the associated products
-     */
+/**
+ * CATEGORY ATTRIBUTES
+ * $this->attributes['id'] - int - contains the category primary key (id)
+ * $this->attributes['name'] - string - contains the category name
+ * $this->attributes['description'] - string - contains the category description
+ * $this->products - Product[] - contains the associated products
+ * $this->attributes['created_at'] - datetime - contains the category creation date
+ * $this->attributes['updated_at'] - datetime - contains the category last update date
+ */
+
     protected $fillable = ['name', 'description'];
 
     public function getId(): int

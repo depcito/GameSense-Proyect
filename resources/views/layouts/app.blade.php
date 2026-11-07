@@ -32,7 +32,8 @@
                 data-bs-target="#navbarNavAltMarkup"
                 aria-controls="navbarNavAltMarkup"
                 aria-expanded="false"
-                aria-label="Abrir menú de navegación">
+                aria-label="{{ __('Abrir menú de navegación') }}">
+
                 <span class="navbar-toggler-icon"></span>
             </button>
 
@@ -40,46 +41,54 @@
                 <div class="navbar-nav ms-auto">
 
                     <a class="nav-link" href="{{ route('home.index') }}">
-                        Inicio
+                        {{ __('Inicio') }}
                     </a>
 
                     <a class="nav-link" href="{{ route('category.index') }}">
-                        Categorías
+                        {{ __('Categorías') }}
                     </a>
 
                     <a class="nav-link" href="{{ route('product.index') }}">
-                        Productos
+                        {{ __('Productos') }}
                     </a>
 
                     <a class="nav-link" href="#">
-                        Contáctanos
-                    </a>
-                    <div class="vr bg-white mx-2 d-none d-lg-block"></div>
-                    @auth
-                    <a class="nav-link" href="{{ route('payment.index') }}"> Pagos </a>
-                    @if (auth()->user()->role === 'admin')
-                        <a class="nav-link" href="{{ route('category.create') }}"> Administrar categorias </a>
-                        <a class="nav-link" href="{{ route('product.create') }}"> Administrar productos </a>
-                    @endif
-                    @endauth
-                    @guest
-                    <a class="nav-link" href="{{ route('login') }}">
-                        Iniciar sesión
+                        {{ __('Contáctanos') }}
                     </a>
 
-                    <a class="nav-link" href="{{ route('register') }}">
-                        Registrarse
-                    </a>
+                    <div class="vr bg-white mx-2 d-none d-lg-block"></div>
+
+                    @guest
+
+                        <a class="nav-link" href="{{ route('login') }}">
+                            {{ __('Iniciar sesión') }}
+                        </a>
+
+                        <a class="nav-link" href="{{ route('register') }}">
+                            {{ __('Registrarse') }}
+                        </a>
+
                     @else
-                    <form id="logout" action="{{ route('logout') }}" method="POST">
-                        @csrf
-                        
-                        <button type="submit" class="nav-link border-0 bg-transparent">
-                            Cerrar sesión
-                        </button>
-                    </form>
+
+                        <a class="nav-link" href="{{ route('payment.index') }}">
+                            {{ __('Pagos') }}
+                        </a>
+
+                        @if (auth()->user()->getRole() === 'admin')
+                            <a class="nav-link" href="{{ route('admin.users.index') }}">
+                                {{ __('Panel de administración') }}
+                            </a>
+                        @endif
+
+                        <form id="logout" action="{{ route('logout') }}" method="POST">
+                            @csrf
+
+                            <button type="submit" class="nav-link border-0 bg-transparent">
+                                {{ __('Cerrar sesión') }}
+                            </button>
+                        </form>
+
                     @endguest
-                    
 
                 </div>
             </div>
@@ -99,13 +108,17 @@
     <!-- Footer -->
     <footer class="copyright py-4 text-center text-white">
         <div class="container">
-            <p class="mb-0">&copy; {{ date('Y') }} Los mejores en esto.</p>
+            <p class="mb-0">
+                &copy; {{ date('Y') }} {{ __('Los mejores en esto.') }}
+            </p>
         </div>
     </footer>
 
+    <!-- Bootstrap JavaScript -->
     <script
         src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
-        crossorigin="anonymous"></script>
+        crossorigin="anonymous">
+    </script>
 
 </body>
 

@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('admin.layout')
 @section("title", $viewData["title"])
 @section('content')
 <div class="container">
@@ -14,7 +14,7 @@
                         @endforeach
                     </ul>
                     @endif
-                    <form method="POST" action="{{ route('category.save') }}">
+                    <form method="POST" action="{{ route('admin.category.save') }}">
 
                         @csrf
 

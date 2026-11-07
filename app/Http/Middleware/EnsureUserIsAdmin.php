@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Middleware;
 
 use Closure;
@@ -10,7 +9,7 @@ use Symfony\Component\HttpFoundation\Response;
 class EnsureUserIsAdmin
 {
     /**
-     * Allow the request only for authenticated users with the "admin" role.
+     * Allow the request only for authenticated users with the admin role.
      */
     public function handle(Request $request, Closure $next): Response
     {
@@ -24,7 +23,7 @@ class EnsureUserIsAdmin
             abort(401);
         }
 
-        abort_unless($user->role === 'admin', 403);
+        abort_unless($user->getRole() === 'admin', 403);
 
         return $next($request);
     }

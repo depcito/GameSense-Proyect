@@ -11,7 +11,7 @@ class Product extends Model
     use HasFactory;
 
     /**
-     * PRODUCT ATTRIBUTES
+    * PRODUCT ATTRIBUTES
      * $this->attributes['id'] - int - contains the product primary key (id)
      * $this->attributes['title'] - string - contains the product title
      * $this->attributes['description'] - string - contains the product description
@@ -21,7 +21,9 @@ class Product extends Model
      * $this->attributes['type'] - string - contains the product type
      * $this->attributes['platform'] - string - contains the product platform
      * $this->category - Category - contains the category associated with the product
-     */
+     * $this->attributes['created_at'] - datetime - contains the product creation date
+     * $this->attributes['updated_at'] - datetime - contains the product last update date
+    */
 
     protected $fillable = ['title','description','price','stock','format','type','platform','category_id',];
 
