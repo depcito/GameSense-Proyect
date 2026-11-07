@@ -33,6 +33,7 @@
                 aria-controls="navbarNavAltMarkup"
                 aria-expanded="false"
                 aria-label="{{ __('Abrir menú de navegación') }}">
+
                 <span class="navbar-toggler-icon"></span>
             </button>
 
@@ -58,6 +59,7 @@
                     <div class="vr bg-white mx-2 d-none d-lg-block"></div>
 
                     @guest
+
                         <a class="nav-link" href="{{ route('login') }}">
                             {{ __('Iniciar sesión') }}
                         </a>
@@ -65,7 +67,15 @@
                         <a class="nav-link" href="{{ route('register') }}">
                             {{ __('Registrarse') }}
                         </a>
+
                     @else
+
+                        @if (auth()->user()->getRole() === 'admin')
+                            <a class="nav-link" href="{{ route('admin.users.index') }}">
+                                {{ __('Panel de administración') }}
+                            </a>
+                        @endif
+
                         <form id="logout" action="{{ route('logout') }}" method="POST">
                             @csrf
 
@@ -73,6 +83,7 @@
                                 {{ __('Cerrar sesión') }}
                             </button>
                         </form>
+
                     @endguest
 
                 </div>
@@ -99,9 +110,11 @@
         </div>
     </footer>
 
+    <!-- Bootstrap JavaScript -->
     <script
         src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
-        crossorigin="anonymous"></script>
+        crossorigin="anonymous">
+    </script>
 
 </body>
 

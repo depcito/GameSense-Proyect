@@ -1,5 +1,4 @@
-@extends('layouts.app')
-
+@extends('admin.layout')
 @section('title', $viewData['title'])
 
 @section('content')
@@ -19,7 +18,7 @@
                         </ul>
                     @endif
 
-                    <form method="POST" action="{{ route('product.save') }}">
+                    <form method="POST" action="{{ route('admin.product.save') }}">
                         @csrf
 
                         <label for="title" class="form-label">Nombre del producto</label>
