@@ -119,8 +119,8 @@ class PaymentTest extends TestCase
         $payment = Payment::first();
 
         $this->actingAs($admin)
-            ->patch('/payments/'.$payment->id.'/status', ['status' => 'Completado'])
-            ->assertRedirect(route('payment.show', ['id' => $payment->id]));
+            ->patch('/admin/payments/'.$payment->id.'/status', ['status' => 'Completado'])
+            ->assertRedirect(route('admin.payment.show', ['id' => $payment->id]));
 
         $this->assertSame('Completado', $payment->fresh()->getStatus());
         $this->assertSame('Pagado', $order->fresh()->getStatus());
@@ -134,7 +134,7 @@ class PaymentTest extends TestCase
         $data = ['order_id' => $order->id, 'method' => 'PSE'];
 
         $this->actingAs($user)->post('/payments/save', $data);
-        $this->actingAs($admin)->patch('/payments/'.Payment::first()->id.'/status', ['status' => 'Fallido']);
+        $this->actingAs($admin)->patch('/admin/payments/'.Payment::first()->id.'/status', ['status' => 'Fallido']);
         $this->actingAs($user)->post('/payments/save', $data)->assertSessionHasNoErrors();
 
         $this->assertSame(2, Payment::count());
@@ -149,7 +149,7 @@ class PaymentTest extends TestCase
         $payment = Payment::first();
 
         $this->actingAs($user)
-            ->patch('/payments/'.$payment->id.'/status', ['status' => 'Completado'])
+            ->patch('/admin/payments/'.$payment->id.'/status', ['status' => 'Completado'])
             ->assertForbidden();
 
         $this->assertSame('Pendiente', $payment->fresh()->getStatus());
@@ -164,11 +164,35 @@ class PaymentTest extends TestCase
         $this->actingAs($user)->post('/payments/save', ['order_id' => $order->id, 'method' => 'PSE']);
         $payment = Payment::first();
 
-        $this->actingAs($admin)->patch('/payments/'.$payment->id.'/status', ['status' => 'Completado']);
+        $this->actingAs($admin)->patch('/admin/payments/'.$payment->id.'/status', ['status' => 'Completado']);
         $this->actingAs($admin)
-            ->patch('/payments/'.$payment->id.'/status', ['status' => 'Fallido'])
-            ->assertSessionHasErrors('status');
+            ->patch('/admin/payments/'.$payment->id.'/status', ['status' => 'Fallido'])
+            ->assertSessionHas('error');
 
         $this->assertSame('Completado', $payment->fresh()->getStatus());
+    }
+
+    public function test_admin_sees_all_payments_in_the_admin_panel(): void
+    {
+        $admin = User::factory()->create(['role' => 'admin']);
+        $first = User::factory()->create(['role' => 'user']);
+        $second = User::factory()->create(['role' => 'user']);
+        $orderOne = $this->orderFor($first);
+        $orderTwo = $this->orderFor($second);
+
+        $this->actingAs($first)->post('/payments/save', ['order_id' => $orderOne->id, 'method' => 'PSE']);
+        $this->actingAs($second)->post('/payments/save', ['order_id' => $orderTwo->id, 'method' => 'PSE']);
+
+        $this->actingAs($admin)->get('/admin/payments')
+            ->assertOk()
+            ->assertSee($orderOne->code)
+            ->assertSee($orderTwo->code);
+    }
+
+    public function test_regular_users_cannot_access_the_admin_payment_panel(): void
+    {
+        $user = User::factory()->create(['role' => 'user']);
+
+        $this->actingAs($user)->get('/admin/payments')->assertForbidden();
     }
 }
