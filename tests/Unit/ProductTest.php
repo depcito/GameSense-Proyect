@@ -1,4 +1,5 @@
 <?php
+
 namespace Tests\Unit;
 
 use App\Models\Product;
@@ -8,7 +9,7 @@ class ProductTest extends TestCase
 {
     public function test_product_getters_and_setters(): void
     {
-        $product = new Product();
+        $product = new Product;
 
         $product->setId(1);
         $product->setTitle('FIFA 25');

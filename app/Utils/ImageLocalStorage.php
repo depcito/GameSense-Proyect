@@ -14,7 +14,7 @@ class ImageLocalStorage implements ImageStorage
 
             $imagePath = $request->input('image_path');
 
-            if (!$imagePath) {
+            if (! $imagePath) {
                 throw new \InvalidArgumentException(
                     'The image path must be specified.'
                 );

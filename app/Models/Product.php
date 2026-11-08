@@ -12,7 +12,7 @@ class Product extends Model
     use HasFactory;
 
     /**
-    * PRODUCT ATTRIBUTES
+     * PRODUCT ATTRIBUTES
      * $this->attributes['id'] - int - contains the product primary key (id)
      * $this->attributes['title'] - string - contains the product title
      * $this->attributes['description'] - string - contains the product description
@@ -26,10 +26,8 @@ class Product extends Model
      * $this->attributes['created_at'] - datetime - contains the product creation date
      * $this->attributes['updated_at'] - datetime - contains the product last update date
      *  $this->attributes['image'] - string|null - contains the product image path
-     * 
-    */
-
-    protected $fillable = ['title','description','price','stock','format','type','platform','category_id','image'];
+     */
+    protected $fillable = ['title', 'description', 'price', 'stock', 'format', 'type', 'platform', 'category_id', 'image'];
 
     public function getId(): int
     {
@@ -132,24 +130,24 @@ class Product extends Model
     }
 
     public function getImage(): ?string
-{
-    return $this->attributes['image'] ?? null;
-}
-
-public function setImage(?string $image): void
-{
-    $this->attributes['image'] = $image;
-}
-
-public function getImageUrl(): ?string
-{
-    if (!$this->getImage()) {
-        return null;
+    {
+        return $this->attributes['image'] ?? null;
     }
 
-    return 'https://storage.googleapis.com/'
-        . config('services.gcp.bucket')
-        . '/'
-        . $this->getImage();
-}
+    public function setImage(?string $image): void
+    {
+        $this->attributes['image'] = $image;
+    }
+
+    public function getImageUrl(): ?string
+    {
+        if (! $this->getImage()) {
+            return null;
+        }
+
+        return 'https://storage.googleapis.com/'
+            .config('services.gcp.bucket')
+            .'/'
+            .$this->getImage();
+    }
 }

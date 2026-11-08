@@ -21,7 +21,6 @@ use Illuminate\Notifications\Notifiable;
  * - created_at: datetime — contains the user creation date.
  * - updated_at: datetime — contains the user last update date.
  */
-
 class User extends Authenticatable
 {
     /** @use HasFactory<UserFactory> */

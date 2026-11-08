@@ -1,14 +1,14 @@
 <?php
+
 namespace App\Http\Controllers\Admin;
 
-use App\Interfaces\ImageStorage;
 use App\Http\Controllers\Controller;
+use App\Interfaces\ImageStorage;
 use App\Models\Category;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
-
 
 class CategoryController extends Controller
 {
@@ -53,14 +53,14 @@ class CategoryController extends Controller
             'image' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
         ]);
 
-        $category = new Category();
+        $category = new Category;
         $category->setName($data['name']);
         $category->setDescription($data['description']);
 
         if ($request->hasFile('image')) {
 
-            $imagePath = 'categories/' . Str::uuid()
-                . '.' . $request->file('image')->extension();
+            $imagePath = 'categories/'.Str::uuid()
+                .'.'.$request->file('image')->extension();
 
             $request->merge([
                 'image_path' => $imagePath,
@@ -107,7 +107,7 @@ class CategoryController extends Controller
                 'required',
                 'string',
                 'max:255',
-                'unique:categories,name,' . $category->getId()
+                'unique:categories,name,'.$category->getId(),
             ],
             'description' => ['required', 'string', 'max:1000'],
             'image' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
@@ -118,8 +118,8 @@ class CategoryController extends Controller
 
         if ($request->hasFile('image')) {
 
-            $imagePath = 'categories/' . Str::uuid()
-                . '.' . $request->file('image')->extension();
+            $imagePath = 'categories/'.Str::uuid()
+                .'.'.$request->file('image')->extension();
 
             $request->merge([
                 'image_path' => $imagePath,

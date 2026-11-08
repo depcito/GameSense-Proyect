@@ -35,7 +35,7 @@ return [
         ],
     ],
     'gcp' => [
-    'bucket' => env('GCP_BUCKET'),
+        'bucket' => env('GCP_BUCKET'),
     ],
 
 ];

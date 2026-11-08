@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Utils;
 
 use App\Interfaces\ImageStorage;
@@ -11,13 +12,13 @@ class ImageGCPStorage implements ImageStorage
 {
     public function store(Request $request): void
     {
-        if (!$request->hasFile('image')) {
+        if (! $request->hasFile('image')) {
             return;
         }
 
         $imagePath = $request->input('image_path');
 
-        if (!$imagePath) {
+        if (! $imagePath) {
             throw new InvalidArgumentException(
                 'The image path must be specified.'
             );
@@ -26,13 +27,13 @@ class ImageGCPStorage implements ImageStorage
         $keyFilePath = env('GCP_KEY_FILE');
         $bucketName = config('services.gcp.bucket');
 
-        if (!$keyFilePath || !file_exists($keyFilePath)) {
+        if (! $keyFilePath || ! file_exists($keyFilePath)) {
             throw new RuntimeException(
                 'The Google Cloud credentials file was not found.'
             );
         }
 
-        if (!$bucketName) {
+        if (! $bucketName) {
             throw new RuntimeException(
                 'The Google Cloud bucket name is not configured.'
             );
@@ -43,14 +44,14 @@ class ImageGCPStorage implements ImageStorage
             true
         );
 
-        if (!$keyFile) {
+        if (! $keyFile) {
             throw new RuntimeException(
                 'The Google Cloud credentials file is invalid.'
             );
         }
 
         $storage = new StorageClient([
-            'keyFile' => $keyFile
+            'keyFile' => $keyFile,
         ]);
 
         $bucket = $storage->bucket($bucketName);
@@ -58,7 +59,7 @@ class ImageGCPStorage implements ImageStorage
         $bucket->upload(
             fopen($request->file('image')->getRealPath(), 'r'),
             [
-                'name' => $imagePath
+                'name' => $imagePath,
             ]
         );
     }

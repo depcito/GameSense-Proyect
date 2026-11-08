@@ -61,7 +61,7 @@ class ProductController extends Controller
             'image' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
         ]);
 
-        $product = new Product();
+        $product = new Product;
         $product->setTitle($data['title']);
         $product->setDescription($data['description']);
         $product->setPrice($data['price']);
@@ -73,8 +73,8 @@ class ProductController extends Controller
 
         if ($request->hasFile('image')) {
 
-            $imagePath = 'products/' . Str::uuid()
-                . '.' . $request->file('image')->extension();
+            $imagePath = 'products/'.Str::uuid()
+                .'.'.$request->file('image')->extension();
 
             $request->merge([
                 'image_path' => $imagePath,
@@ -140,8 +140,8 @@ class ProductController extends Controller
 
         if ($request->hasFile('image')) {
 
-            $imagePath = 'products/' . Str::uuid()
-                . '.' . $request->file('image')->extension();
+            $imagePath = 'products/'.Str::uuid()
+                .'.'.$request->file('image')->extension();
 
             $request->merge([
                 'image_path' => $imagePath,

@@ -20,21 +20,20 @@ class CategoryController extends Controller
 
     public function create(): View
     {
-        $viewData = ['title' => 'Categories',];
+        $viewData = ['title' => 'Categories'];
 
         return view('category.create', ['viewData' => $viewData]);
     }
 
     public function save(Request $request)
     {
-        $category = new Category();
+        $category = new Category;
         $category->setName($request->input('name'));
         $category->setDescription($request->input('description'));
         $category->save();
 
         return redirect()->route('category.index');
     }
-
 
     public function show(int $id): View
     {
