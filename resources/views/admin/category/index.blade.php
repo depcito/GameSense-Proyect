@@ -1,3 +1,4 @@
+
 @extends('admin.layout')
 
 @section('title', 'Administrar categorías')
@@ -23,6 +24,7 @@
                     <thead>
                         <tr>
                             <th>ID</th>
+                            <th>Imagen</th>
                             <th>Nombre</th>
                             <th>Descripción</th>
                             <th>Acciones</th>
@@ -33,41 +35,63 @@
                         @forelse ($viewData['categories'] as $category)
                             <tr>
                                 <td>{{ $category->getId() }}</td>
+
+                                <td>
+                                    @if($category->getImageUrl())
+                                        <img
+                                            src="{{ $category->getImageUrl() }}"
+                                            alt="{{ $category->getName() }}"
+                                            style="width: 80px; height: 70px; object-fit: cover;"
+                                            class="rounded"
+                                        />
+                                    @else
+                                        <span class="text-muted">
+                                            Sin imagen
+                                        </span>
+                                    @endif
+                                </td>
+
                                 <td>{{ $category->getName() }}</td>
+
                                 <td>{{ $category->getDescription() }}</td>
 
                                 <td>
                                     <div class="d-flex gap-2">
 
-                                        <a href="{{ route('admin.category.show', ['id' => $category->getId()]) }}"
-                                            class="btn btn-info btn-sm">
+                                        <a
+                                            href="{{ route('admin.category.show', ['id' => $category->getId()]) }}"
+                                            class="btn btn-info btn-sm"
+                                        >
                                             Ver
                                         </a>
 
-                                        <a href="{{ route('admin.category.edit', ['id' => $category->getId()]) }}"
-                                            class="btn btn-warning btn-sm">
+                                        <a
+                                            href="{{ route('admin.category.edit', ['id' => $category->getId()]) }}"
+                                            class="btn btn-warning btn-sm"
+                                        >
                                             Editar
                                         </a>
 
-                                        <form action="{{ route('admin.category.destroy', ['id' => $category->getId()]) }}"
+                                        <form
+                                            action="{{ route('admin.category.destroy', ['id' => $category->getId()]) }}"
                                             method="POST"
-                                            onsubmit="return confirm('¿Estás seguro de eliminar esta categoría?')">
-
+                                            onsubmit="return confirm('¿Estás seguro de eliminar esta categoría?')"
+                                        >
                                             @csrf
                                             @method('DELETE')
 
                                             <button type="submit" class="btn btn-danger btn-sm">
                                                 Eliminar
                                             </button>
-
                                         </form>
 
                                     </div>
                                 </td>
                             </tr>
+
                         @empty
                             <tr>
-                                <td colspan="4" class="text-center py-4">
+                                <td colspan="5" class="text-center py-4">
                                     No hay categorías registradas.
                                 </td>
                             </tr>
@@ -75,6 +99,10 @@
                     </tbody>
 
                 </table>
+            </div>
+
+            <div class="mt-3">
+                {{ $viewData['categories']->links() }}
             </div>
 
         </div>

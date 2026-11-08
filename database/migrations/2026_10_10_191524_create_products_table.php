@@ -21,9 +21,8 @@ return new class extends Migration
             $table->string('format');
             $table->string('type');
             $table->string('platform');
-
+            $table->string('image')->nullable();
             $table->foreignId('category_id')->constrained('categories')->onDelete('cascade');
-
             $table->timestamps();
         });
     }

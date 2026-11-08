@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Interfaces\ImageStorage;
 use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use Illuminate\View\View;
 
 class ProductController extends Controller
@@ -56,6 +58,7 @@ class ProductController extends Controller
             'type' => ['required', 'string', 'max:255'],
             'platform' => ['required', 'string', 'max:255'],
             'category_id' => ['required', 'exists:categories,id'],
+            'image' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
         ]);
 
         $product = new Product();
@@ -67,6 +70,22 @@ class ProductController extends Controller
         $product->setType($data['type']);
         $product->setPlatform($data['platform']);
         $product->category_id = $data['category_id'];
+
+        if ($request->hasFile('image')) {
+
+            $imagePath = 'products/' . Str::uuid()
+                . '.' . $request->file('image')->extension();
+
+            $request->merge([
+                'image_path' => $imagePath,
+            ]);
+
+            $imageStorage = app(ImageStorage::class);
+            $imageStorage->store($request);
+
+            $product->setImage($imagePath);
+        }
+
         $product->save();
 
         return redirect()->route('admin.product.index')
@@ -107,6 +126,7 @@ class ProductController extends Controller
             'type' => ['required', 'string', 'max:255'],
             'platform' => ['required', 'string', 'max:255'],
             'category_id' => ['required', 'exists:categories,id'],
+            'image' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
         ]);
 
         $product->setTitle($data['title']);
@@ -117,6 +137,22 @@ class ProductController extends Controller
         $product->setType($data['type']);
         $product->setPlatform($data['platform']);
         $product->category_id = $data['category_id'];
+
+        if ($request->hasFile('image')) {
+
+            $imagePath = 'products/' . Str::uuid()
+                . '.' . $request->file('image')->extension();
+
+            $request->merge([
+                'image_path' => $imagePath,
+            ]);
+
+            $imageStorage = app(ImageStorage::class);
+            $imageStorage->store($request);
+
+            $product->setImage($imagePath);
+        }
+
         $product->save();
 
         return redirect()->route('admin.product.index')

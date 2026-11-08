@@ -19,9 +19,11 @@ class Category extends Model
  * $this->products - Product[] - contains the associated products
  * $this->attributes['created_at'] - datetime - contains the category creation date
  * $this->attributes['updated_at'] - datetime - contains the category last update date
+ * $this->attributes['image'] - string|null - contains the category image path
  */
 
-    protected $fillable = ['name', 'description'];
+
+    protected $fillable = ['name', 'description', 'image'];
 
     public function getId(): int
     {
@@ -60,11 +62,29 @@ class Category extends Model
 
     public function getProducts(): Collection
     {
-        return $this->products;
+            return $this->products;
     }
 
     public function setProducts(Collection $products): void
     {
         $this->products = $products;
     }
+    public function getImage(): ?string
+    {
+        return $this->attributes['image'] ?? null;
+    }
+
+    public function setImage(?string $image): void
+    {
+        $this->attributes['image'] = $image;
+    }
+
+    public function getImageUrl(): ?string
+    {
+        if (!$this->getImage()) {
+            return null;
+        }
+
+        return 'https://storage.googleapis.com/'. config('services.gcp.bucket'). '/' . $this->getImage();
+}
 }

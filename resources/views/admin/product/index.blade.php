@@ -1,3 +1,4 @@
+
 @extends('admin.layout')
 
 @section('title', 'Administrar productos')
@@ -23,6 +24,7 @@
                     <thead>
                         <tr>
                             <th>ID</th>
+                            <th>Imagen</th>
                             <th>Producto</th>
                             <th>Precio</th>
                             <th>Stock</th>
@@ -37,45 +39,73 @@
                         @forelse ($viewData['products'] as $product)
                             <tr>
                                 <td>{{ $product->getId() }}</td>
+
+                                <td>
+                                    @if($product->getImageUrl())
+                                        <img
+                                            src="{{ $product->getImageUrl() }}"
+                                            alt="{{ $product->getTitle() }}"
+                                            style="width: 80px; height: 70px; object-fit: cover;"
+                                            class="rounded"
+                                        />
+                                    @else
+                                        <span class="text-muted">
+                                            Sin imagen
+                                        </span>
+                                    @endif
+                                </td>
+
                                 <td>{{ $product->getTitle() }}</td>
-                                <td>${{ number_format($product->getPrice(), 0, ',', '.') }} COP</td>
+
+                                <td>
+                                    ${{ number_format($product->getPrice(), 0, ',', '.') }} COP
+                                </td>
+
                                 <td>{{ $product->getStock() }}</td>
+
                                 <td>{{ $product->getFormat() }}</td>
+
                                 <td>{{ $product->getType() }}</td>
+
                                 <td>{{ $product->getPlatform() }}</td>
 
                                 <td>
                                     <div class="d-flex gap-2">
 
-                                        <a href="{{ route('admin.product.show', ['id' => $product->getId()]) }}"
-                                            class="btn btn-info btn-sm">
+                                        <a
+                                            href="{{ route('admin.product.show', ['id' => $product->getId()]) }}"
+                                            class="btn btn-info btn-sm"
+                                        >
                                             Ver
                                         </a>
 
-                                        <a href="{{ route('admin.product.edit', ['id' => $product->getId()]) }}"
-                                            class="btn btn-warning btn-sm">
+                                        <a
+                                            href="{{ route('admin.product.edit', ['id' => $product->getId()]) }}"
+                                            class="btn btn-warning btn-sm"
+                                        >
                                             Editar
                                         </a>
 
-                                        <form action="{{ route('admin.product.destroy', ['id' => $product->getId()]) }}"
+                                        <form
+                                            action="{{ route('admin.product.destroy', ['id' => $product->getId()]) }}"
                                             method="POST"
-                                            onsubmit="return confirm('¿Estás seguro de eliminar este producto?')">
-
+                                            onsubmit="return confirm('¿Estás seguro de eliminar este producto?')"
+                                        >
                                             @csrf
                                             @method('DELETE')
 
                                             <button type="submit" class="btn btn-danger btn-sm">
                                                 Eliminar
                                             </button>
-
                                         </form>
 
                                     </div>
                                 </td>
                             </tr>
+
                         @empty
                             <tr>
-                                <td colspan="8" class="text-center py-4">
+                                <td colspan="9" class="text-center py-4">
                                     No hay productos registrados.
                                 </td>
                             </tr>
@@ -83,6 +113,10 @@
                     </tbody>
 
                 </table>
+            </div>
+
+            <div class="mt-3">
+                {{ $viewData['products']->links() }}
             </div>
 
         </div>

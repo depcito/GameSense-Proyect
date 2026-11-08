@@ -1,13 +1,28 @@
+
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
+
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ProductController;
 
 Auth::routes();
 
-Route::get('/', 'App\Http\Controllers\HomeController@index')->name('home.index');
+Route::get('/', [HomeController::class, 'index'])
+    ->name('home.index');
 
-Route::get('/categories', 'App\Http\Controllers\CategoryController@index')->name('category.index');
-Route::get('/categories/{id}', 'App\Http\Controllers\CategoryController@show')->name('category.show');
 
-Route::get('/products', 'App\Http\Controllers\ProductController@index')->name('product.index');
-Route::get('/products/{id}', 'App\Http\Controllers\ProductController@show')->name('product.show');
+Route::get('/categories', [CategoryController::class, 'index'])
+    ->name('category.index');
+
+Route::get('/categories/{id}', [CategoryController::class, 'show'])
+    ->name('category.show');
+
+
+Route::get('/products', [ProductController::class, 'index'])
+    ->name('product.index');
+
+Route::get('/products/{id}', [ProductController::class, 'show'])
+    ->name('product.show');
