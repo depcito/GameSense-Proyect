@@ -54,7 +54,7 @@
 
                     @if ($viewData['product']->getCategory())
                         <a
-                            href="{{ route('categories.show', ['id' => $viewData['product']->getCategory()->getId()]) }}"
+                            href="{{ route('category.show', ['id' => $viewData['product']->getCategory()->getId()]) }}"
                             class="text-decoration-none"
                         >
                             {{ $viewData['product']->getCategory()->getName() }}
@@ -65,6 +65,59 @@
                         </span>
                     @endif
                 </p>
+
+                <hr>
+
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul class="mb-0">
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+
+                @auth
+                    @if ($viewData['product']->getStock() > 0)
+                        <form
+                            method="POST"
+                            action="{{ route('cart.add', ['id' => $viewData['product']->getId()]) }}"
+                            class="row g-2 align-items-end mb-3"
+                        >
+                            @csrf
+
+                            <div class="col-auto">
+                                <label for="quantity" class="form-label">Cantidad</label>
+                                <input
+                                    type="number"
+                                    name="quantity"
+                                    id="quantity"
+                                    class="form-control"
+                                    value="1"
+                                    min="1"
+                                    max="{{ $viewData['product']->getStock() }}"
+                                    required
+                                >
+                            </div>
+
+                            <div class="col-auto">
+                                <button type="submit" class="btn btn-primary">
+                                    Agregar al carrito
+                                </button>
+                            </div>
+                        </form>
+                    @else
+                        <p class="text-muted">
+                            Producto agotado.
+                        </p>
+                    @endif
+                @else
+                    <p class="text-muted">
+                        <a href="{{ route('login') }}" class="text-decoration-none">Inicia sesión</a>
+                        para agregar este producto al carrito.
+                    </p>
+                @endauth
 
                 <a
                     href="{{ route('product.index') }}"

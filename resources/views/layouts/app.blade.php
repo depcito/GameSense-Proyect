@@ -70,6 +70,14 @@
 
                     @else
 
+                        <a class="nav-link" href="{{ route('cart.index') }}">
+                            {{ __('Carrito') }}
+                        </a>
+
+                        <a class="nav-link" href="{{ route('order.index') }}">
+                            {{ __('Pedidos') }}
+                        </a>
+
                         <a class="nav-link" href="{{ route('payment.index') }}">
                             {{ __('Pagos') }}
                         </a>
