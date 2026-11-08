@@ -1,0 +1,1 @@
+<h1>Categoria creada satisfactoriamente</h1>
