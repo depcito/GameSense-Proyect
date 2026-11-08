@@ -12,6 +12,9 @@ Route::get('/categories/{id}', 'App\Http\Controllers\CategoryController@show')->
 Route::get('/products', 'App\Http\Controllers\ProductController@index')->name('product.index');
 Route::get('/products/{id}', 'App\Http\Controllers\ProductController@show')->name('product.show');
 
+Route::get('/reviews', 'App\Http\Controllers\ReviewController@index')->name('review.index');
+Route::get('/reviews/{id}', 'App\Http\Controllers\ReviewController@show')->whereNumber('id')->name('review.show');
+
 // Cart, checkout and orders (authenticated users)
 Route::middleware('auth')->group(function () {
     Route::get('/cart', 'App\Http\Controllers\CartController@index')->name('cart.index');
@@ -25,4 +28,5 @@ Route::middleware('auth')->group(function () {
     Route::get('/orders', 'App\Http\Controllers\OrderController@index')->name('order.index');
     Route::get('/orders/{id}', 'App\Http\Controllers\OrderController@show')->name('order.show');
     Route::post('/orders/{id}/cancel', 'App\Http\Controllers\OrderController@cancel')->name('order.cancel');
-});
+
+}); 
