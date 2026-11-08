@@ -37,9 +37,6 @@ class PaymentController extends Controller
     {
         $orders = Order::where('user_id', Auth::id())
             ->where('status', 'Pendiente')
-            ->whereDoesntHave('payments', function ($query) {
-                $query->whereIn('status', [Payment::STATUS_PENDING, Payment::STATUS_COMPLETED]);
-            })
             ->orderBy('id')
             ->get();
 
@@ -54,7 +51,7 @@ class PaymentController extends Controller
     }
 
     /**
-     * Register a payment. The amount is taken from the order, never from the request.
+     * Pay an order. The payment is immediate and the amount is taken from the order, never from the request.
      */
     public function save(Request $request): RedirectResponse
     {
@@ -72,38 +69,18 @@ class PaymentController extends Controller
                 return null;
             }
 
-            $hasActivePayment = $order->payments()
-                ->whereIn('status', [Payment::STATUS_PENDING, Payment::STATUS_COMPLETED])
-                ->exists();
-
-            if ($hasActivePayment) {
-                return null;
-            }
-
-            $payment = new Payment;
-
-            $payment->setMethod($validated['method']);
-            $payment->setAmount($order->getTotal());
-            $payment->setDate(now()->toDateString());
-            $payment->setStatus(Payment::STATUS_PENDING);
-
-            $payment->order_id = $order->getId();
-            $payment->user_id = Auth::id();
-
-            $payment->save();
-
-            return $payment;
+            return Payment::register($order, $validated['method']);
         });
 
         if ($payment === null) {
             return back()
                 ->withInput()
-                ->withErrors(['order_id' => 'Este pedido ya fue pagado o ya tiene un pago en proceso.']);
+                ->withErrors(['order_id' => 'Este pedido ya fue pagado.']);
         }
 
         return redirect()
             ->route('payment.show', ['id' => $payment->getId()])
-            ->with('success', 'Pago registrado correctamente. Está pendiente de confirmación.');
+            ->with('success', 'Pago realizado correctamente.');
     }
 
     public function show(int $id): View
@@ -121,7 +98,7 @@ class PaymentController extends Controller
     }
 
     /**
-     * Only the owner of the payment can see it. Admins manage payments from the admin panel.
+     * Only the owner of the payment can see it. Admins review payments from the admin panel.
      */
     private function authorizeAccess(Payment $payment): void
     {

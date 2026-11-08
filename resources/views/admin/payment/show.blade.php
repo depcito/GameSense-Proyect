@@ -49,26 +49,6 @@
                 </div>
             </div>
 
-            @if ($viewData['payment']->getStatus() === 'Pendiente')
-                <hr>
-
-                <form
-                    method="POST"
-                    action="{{ route('admin.payment.updateStatus', ['id' => $viewData['payment']->getId()]) }}"
-                    class="d-flex gap-2">
-                    @csrf
-                    @method('PATCH')
-
-                    <button type="submit" name="status" value="Completado" class="btn btn-primary">
-                        Confirmar pago
-                    </button>
-
-                    <button type="submit" name="status" value="Fallido" class="btn btn-outline-danger">
-                        Rechazar pago
-                    </button>
-                </form>
-            @endif
-
         </div>
     </div>
 

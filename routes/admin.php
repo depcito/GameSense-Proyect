@@ -38,4 +38,3 @@ Route::post('/orders/{id}/cancel', [OrderController::class, 'cancel'])->name('or
 // Payments
 Route::get('/payments', [PaymentController::class, 'index'])->name('payment.index');
 Route::get('/payments/{id}', [PaymentController::class, 'show'])->name('payment.show');
-Route::patch('/payments/{id}/status', [PaymentController::class, 'updateStatus'])->name('payment.updateStatus');

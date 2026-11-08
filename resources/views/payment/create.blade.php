@@ -61,11 +61,11 @@
                         </div>
 
                         <p class="text-muted small">
-                            El valor a pagar es el total del pedido. No se almacenan datos de tarjetas.
+                            El valor a pagar es el total del pedido y el pago se realiza de inmediato. No se almacenan datos de tarjetas.
                         </p>
 
                         <button type="submit" class="btn btn-primary">
-                            Registrar pago
+                            Pagar ahora
                         </button>
 
                         <a href="{{ route('payment.index') }}" class="btn btn-secondary">
