@@ -46,7 +46,10 @@
                 <p>{{ $viewData['review']->getComment() }}</p>
 
                 <div class="d-flex gap-2 mt-4">
-                    <a href="{{ route('review.index') }}" class="btn btn-outline-secondary">
+                    <a
+                        href="{{ route('review.index', $viewData['review']->getProduct() ? ['product_id' => $viewData['review']->getProduct()->getId()] : []) }}"
+                        class="btn btn-outline-secondary"
+                    >
                         Volver a las reseñas
                     </a>
 

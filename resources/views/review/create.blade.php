@@ -64,7 +64,10 @@
                     </div>
 
                     <button type="submit" class="btn btn-primary">Publicar reseña</button>
-                    <a href="{{ route('review.index') }}" class="btn btn-outline-secondary">Cancelar</a>
+                    <a
+                        href="{{ $viewData['selectedProductId'] ? route('product.show', ['id' => $viewData['selectedProductId']]) : route('product.index') }}"
+                        class="btn btn-outline-secondary"
+                    >Cancelar</a>
                 </form>
             </div>
         </div>
