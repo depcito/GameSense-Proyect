@@ -151,9 +151,38 @@ class ReviewTest extends TestCase
         $this->get('/products/'.$empty->id)->assertOk()->assertSee('todavía no tiene reseñas');
     }
 
-    public function test_the_menu_links_to_the_reviews(): void
+    public function test_the_menu_has_no_reviews_link_because_reviews_live_in_the_product_page(): void
     {
-        $this->get('/products')->assertOk()->assertSee('Reseñas');
+        $this->get('/products')
+            ->assertOk()
+            ->assertDontSee('href="'.route('review.index').'"', false);
+    }
+
+    public function test_the_product_page_links_to_its_own_reviews_and_the_form(): void
+    {
+        $user = User::factory()->create(['role' => 'user']);
+        $product = $this->product();
+
+        $this->get('/products/'.$product->id)
+            ->assertOk()
+            ->assertSee(route('review.index', ['product_id' => $product->id]), false)
+            ->assertDontSee('Escribir reseña');
+
+        $this->actingAs($user)->get('/products/'.$product->id)
+            ->assertOk()
+            ->assertSee(route('review.create', ['product_id' => $product->id]), false)
+            ->assertSee('Escribir reseña');
+    }
+
+    public function test_the_review_detail_goes_back_to_the_reviews_of_its_product(): void
+    {
+        $user = User::factory()->create(['role' => 'user']);
+        $product = $this->product();
+        $review = $this->review($user, $product);
+
+        $this->get('/reviews/'.$review->id)
+            ->assertOk()
+            ->assertSee(route('review.index', ['product_id' => $product->id]), false);
     }
 
     public function test_admin_moderates_reviews_from_the_admin_panel(): void
