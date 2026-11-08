@@ -12,13 +12,15 @@ class Payment extends Model
 
     public const STATUS_COMPLETED = 'Completado';
 
+    public const STATUS_REFUNDED = 'Reembolsado';
+
     /**
      * PAYMENT ATTRIBUTES
      * $this->attributes['id'] - int - contains the payment primary key (id)
      * $this->attributes['method'] - string - contains the payment method chosen by the user
      * $this->attributes['amount'] - float - contains the amount paid (always the order total)
      * $this->attributes['date'] - date - contains the date the payment was made
-     * $this->attributes['status'] - string - contains the payment status ("Completado")
+     * $this->attributes['status'] - string - contains the payment status ("Completado" or "Reembolsado")
      * $this->order - Order - contains the order being paid
      * $this->user - User - contains the user who made the payment
      */
