@@ -78,10 +78,6 @@
                             {{ __('Pedidos') }}
                         </a>
 
-                        <a class="nav-link" href="{{ route('payment.index') }}">
-                            {{ __('Pagos') }}
-                        </a>
-
                         @if (auth()->user()->getRole() === 'admin')
                             <a class="nav-link" href="{{ route('admin.users.index') }}">
                                 {{ __('Panel de administración') }}
