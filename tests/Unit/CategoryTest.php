@@ -1,4 +1,5 @@
 <?php
+
 namespace Tests\Unit;
 
 use App\Models\Category;
@@ -8,7 +9,7 @@ class CategoryTest extends TestCase
 {
     public function test_category_getters_and_setters(): void
     {
-        $category = new Category();
+        $category = new Category;
 
         $category->setId(1);
         $category->setName('Action');

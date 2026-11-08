@@ -1,3 +1,4 @@
+
 @extends('admin.layout')
 
 @section('title', $viewData['title'])
@@ -21,6 +22,17 @@
         </div>
     </div>
 
+    @if ($viewData['product']->getImageUrl())
+        <div class="text-center mb-4">
+            <img
+                src="{{ $viewData['product']->getImageUrl() }}"
+                alt="{{ $viewData['product']->getTitle() }}"
+                class="img-fluid rounded"
+                style="max-height: 350px;"
+            >
+        </div>
+    @endif
+
     <div class="card shadow-sm">
         <div class="card-body">
 
@@ -33,15 +45,37 @@
 
             <div class="row">
                 <div class="col-md-6">
-                    <p><strong>Precio:</strong> ${{ number_format($viewData['product']->getPrice(), 0, ',', '.') }} COP</p>
-                    <p><strong>Stock:</strong> {{ $viewData['product']->getStock() }}</p>
-                    <p><strong>Formato:</strong> {{ $viewData['product']->getFormat() }}</p>
+                    <p>
+                        <strong>Precio:</strong>
+                        ${{ number_format($viewData['product']->getPrice(), 0, ',', '.') }} COP
+                    </p>
+
+                    <p>
+                        <strong>Stock:</strong>
+                        {{ $viewData['product']->getStock() }}
+                    </p>
+
+                    <p>
+                        <strong>Formato:</strong>
+                        {{ $viewData['product']->getFormat() }}
+                    </p>
                 </div>
 
                 <div class="col-md-6">
-                    <p><strong>Tipo:</strong> {{ $viewData['product']->getType() }}</p>
-                    <p><strong>Plataforma:</strong> {{ $viewData['product']->getPlatform() }}</p>
-                    <p><strong>Categoría:</strong> {{ $viewData['product']->getCategory()->getName() }}</p>
+                    <p>
+                        <strong>Tipo:</strong>
+                        {{ $viewData['product']->getType() }}
+                    </p>
+
+                    <p>
+                        <strong>Plataforma:</strong>
+                        {{ $viewData['product']->getPlatform() }}
+                    </p>
+
+                    <p>
+                        <strong>Categoría:</strong>
+                        {{ $viewData['product']->getCategory()->getName() }}
+                    </p>
                 </div>
             </div>
 

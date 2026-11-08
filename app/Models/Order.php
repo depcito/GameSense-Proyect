@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -152,7 +153,7 @@ class Order extends Model
         return $this->hasMany(Item::class);
     }
 
-    public function getItems(): \Illuminate\Database\Eloquent\Collection
+    public function getItems(): Collection
     {
         return $this->items;
     }
