@@ -119,6 +119,55 @@
                     </p>
                 @endauth
 
+                <hr>
+
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h5 class="mb-0">
+                        Reseñas
+                        @if ($viewData['reviewsCount'] > 0)
+                            <span class="text-muted small">
+                                · {{ number_format($viewData['averageRating'], 1) }}/5
+                                ({{ $viewData['reviewsCount'] }})
+                            </span>
+                        @endif
+                    </h5>
+
+                    <div class="d-flex gap-2">
+                        <a
+                            href="{{ route('review.index', ['product_id' => $viewData['product']->getId()]) }}"
+                            class="btn btn-outline-secondary btn-sm"
+                        >
+                            Ver todas
+                        </a>
+
+                        @auth
+                            <a
+                                href="{{ route('review.create', ['product_id' => $viewData['product']->getId()]) }}"
+                                class="btn btn-primary btn-sm"
+                            >
+                                Escribir reseña
+                            </a>
+                        @endauth
+                    </div>
+                </div>
+
+                @forelse ($viewData['reviews'] as $review)
+                    <div class="border-bottom border-secondary py-2">
+                        <div class="d-flex justify-content-between">
+                            <span class="fw-bold">{{ $review->getUser()?->getName() ?? 'Usuario eliminado' }}</span>
+                            <span>
+                                {{ str_repeat('★', $review->getRating()) }}{{ str_repeat('☆', 5 - $review->getRating()) }}
+                            </span>
+                        </div>
+
+                        <p class="mb-0">{{ $review->getComment() }}</p>
+                    </div>
+                @empty
+                    <p class="text-muted">
+                        Este producto todavía no tiene reseñas.
+                    </p>
+                @endforelse
+
                 <a
                     href="{{ route('product.index') }}"
                     class="btn btn-outline-secondary mt-3"

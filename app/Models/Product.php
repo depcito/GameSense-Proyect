@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Product extends Model
 {
@@ -21,6 +22,7 @@ class Product extends Model
      * $this->attributes['type'] - string - contains the product type
      * $this->attributes['platform'] - string - contains the product platform
      * $this->category - Category - contains the category associated with the product
+     * $this->reviews - Review[] - contains the reviews written for the product
      * $this->attributes['created_at'] - datetime - contains the product creation date
      * $this->attributes['updated_at'] - datetime - contains the product last update date
     */
@@ -105,6 +107,11 @@ class Product extends Model
     public function setPlatform(string $platform): void
     {
         $this->attributes['platform'] = $platform;
+    }
+
+    public function reviews(): HasMany
+    {
+        return $this->hasMany(Review::class);
     }
 
     public function category(): BelongsTo
