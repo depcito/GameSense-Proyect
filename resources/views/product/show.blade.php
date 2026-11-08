@@ -6,9 +6,20 @@
 @section('subtitle', $viewData['product']->getTitle())
 
 @section('content')
+
 <div class="row">
     <div class="col-lg-8 mx-auto">
         <div class="card category-card border-0 shadow-sm">
+
+            @if ($viewData['product']->getImageUrl())
+                <img
+                    src="{{ $viewData['product']->getImageUrl() }}"
+                    alt="{{ $viewData['product']->getTitle() }}"
+                    class="card-img-top"
+                    style="max-height: 400px; object-fit: contain;"
+                >
+            @endif
+
             <div class="category-cover d-flex align-items-center justify-content-center">
                 <h2 class="category-name text-center">
                     {{ $viewData['product']->getTitle() }}
@@ -16,6 +27,7 @@
             </div>
 
             <div class="card-body p-4">
+
                 <h4 class="mb-3">Detalles del producto</h4>
 
                 <p class="text-muted">
@@ -174,8 +186,10 @@
                 >
                     Volver a los productos
                 </a>
+
             </div>
         </div>
     </div>
 </div>
+
 @endsection

@@ -25,9 +25,11 @@ class Product extends Model
      * $this->reviews - Review[] - contains the reviews written for the product
      * $this->attributes['created_at'] - datetime - contains the product creation date
      * $this->attributes['updated_at'] - datetime - contains the product last update date
+     *  $this->attributes['image'] - string|null - contains the product image path
+     * 
     */
 
-    protected $fillable = ['title','description','price','stock','format','type','platform','category_id',];
+    protected $fillable = ['title','description','price','stock','format','type','platform','category_id','image'];
 
     public function getId(): int
     {
@@ -128,4 +130,26 @@ class Product extends Model
     {
         $this->category()->associate($category);
     }
+
+    public function getImage(): ?string
+{
+    return $this->attributes['image'] ?? null;
+}
+
+public function setImage(?string $image): void
+{
+    $this->attributes['image'] = $image;
+}
+
+public function getImageUrl(): ?string
+{
+    if (!$this->getImage()) {
+        return null;
+    }
+
+    return 'https://storage.googleapis.com/'
+        . config('services.gcp.bucket')
+        . '/'
+        . $this->getImage();
+}
 }

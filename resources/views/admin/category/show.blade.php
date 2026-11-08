@@ -1,3 +1,4 @@
+
 @extends('admin.layout')
 
 @section('title', $viewData['title'])
@@ -21,6 +22,17 @@
         </div>
     </div>
 
+    @if ($viewData['category']->getImageUrl())
+        <div class="text-center mb-4">
+            <img
+                src="{{ $viewData['category']->getImageUrl() }}"
+                alt="{{ $viewData['category']->getName() }}"
+                class="img-fluid rounded"
+                style="max-height: 300px;"
+            >
+        </div>
+    @endif
+
     <div class="card shadow-sm mb-4">
         <div class="card-body">
             <h5>Descripción</h5>
@@ -36,6 +48,15 @@
         @forelse ($viewData['category']->getProducts() as $product)
             <div class="col-md-4 col-lg-3 mb-4">
                 <div class="card h-100 border-0 shadow-sm">
+
+                    @if ($product->getImageUrl())
+                        <img
+                            src="{{ $product->getImageUrl() }}"
+                            alt="{{ $product->getTitle() }}"
+                            class="card-img-top"
+                            style="height: 180px; object-fit: cover;"
+                        >
+                    @endif
 
                     <div class="card-body text-center">
                         <h5 class="card-title">
