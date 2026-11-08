@@ -70,8 +70,12 @@
 
                     @else
 
-                        <a class="nav-link" href="{{ route('payment.index') }}">
-                            {{ __('Pagos') }}
+                        <a class="nav-link" href="{{ route('cart.index') }}">
+                            {{ __('Carrito') }}
+                        </a>
+
+                        <a class="nav-link" href="{{ route('order.index') }}">
+                            {{ __('Pedidos') }}
                         </a>
 
                         @if (auth()->user()->getRole() === 'admin')

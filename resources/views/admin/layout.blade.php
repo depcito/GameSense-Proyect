@@ -109,6 +109,12 @@
                             </a>
 
                             <a
+                                href="{{ route('admin.order.index') }}"
+                                class="nav-link {{ request()->routeIs('admin.order.*') ? 'active' : '' }}">
+                                Administrar pedidos
+                            </a>
+
+                            <a
                                 href="{{ route('admin.payment.index') }}"
                                 class="nav-link {{ request()->routeIs('admin.payment.*') ? 'active' : '' }}">
                                 Administrar pagos

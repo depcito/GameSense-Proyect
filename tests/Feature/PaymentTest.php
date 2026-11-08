@@ -2,8 +2,10 @@
 
 namespace Tests\Feature;
 
+use App\Models\Category;
 use App\Models\Order;
 use App\Models\Payment;
+use App\Models\Product;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -12,143 +14,115 @@ class PaymentTest extends TestCase
 {
     use RefreshDatabase;
 
-    private function orderFor(User $user, float $total = 150000): Order
+    private function product(float $price = 100000): Product
     {
-        return Order::create([
-            'code' => 'ORD-'.uniqid(),
-            'date' => now()->toDateString(),
-            'status' => 'Pendiente',
-            'total' => $total,
-            'user_id' => $user->id,
+        $category = Category::create([
+            'name' => 'Categoria '.uniqid(),
+            'description' => 'Descripcion',
+        ]);
+
+        return Product::create([
+            'title' => 'Producto '.uniqid(),
+            'description' => 'Descripcion',
+            'price' => $price,
+            'stock' => 10,
+            'format' => 'Digital',
+            'type' => 'Juego',
+            'platform' => 'PC',
+            'category_id' => $category->id,
         ]);
     }
 
-    public function test_guests_are_redirected_to_login(): void
+    private function pay(User $user, float $price = 100000, string $method = 'PSE'): Payment
     {
-        $this->get('/payments')->assertRedirect('/login');
-        $this->post('/payments/save', [])->assertRedirect('/login');
+        $product = $this->product($price);
+
+        $this->actingAs($user)->post('/cart/'.$product->id.'/add', ['quantity' => 1]);
+        $this->actingAs($user)->post('/checkout/save', [
+            'shipping_name' => 'Ana Torres',
+            'shipping_phone' => '3001234567',
+            'shipping_address' => 'Calle 10 # 5-20',
+            'shipping_city' => 'Medellín',
+            'method' => $method,
+        ]);
+
+        return Payment::where('user_id', $user->id)->latest('id')->firstOrFail();
     }
 
-    public function test_user_pays_an_order_immediately_with_the_order_total(): void
+    public function test_the_payment_is_made_in_the_checkout_and_it_is_immediate(): void
     {
         $user = User::factory()->create(['role' => 'user']);
-        $order = $this->orderFor($user, 150000);
 
-        $response = $this->actingAs($user)->post('/payments/save', [
-            'order_id' => $order->id,
-            'method' => 'PSE',
-            'amount' => 1,
-        ]);
+        $payment = $this->pay($user, 150000, 'Tarjeta');
 
-        $payment = Payment::first();
-
-        $response->assertRedirect(route('payment.show', ['id' => $payment->id]));
-        $this->assertEquals(150000, $payment->getAmount());
-        $this->assertSame('PSE', $payment->getMethod());
+        $this->assertSame('Tarjeta', $payment->getMethod());
         $this->assertSame('Completado', $payment->getStatus());
+        $this->assertEquals(150000, $payment->getAmount());
         $this->assertSame($user->id, $payment->user_id);
-        $this->assertSame('Pagado', $order->fresh()->getStatus());
+        $this->assertSame('Pagado', Order::first()->getStatus());
     }
 
-    public function test_validation_rejects_invalid_input(): void
+    public function test_users_have_no_separate_payment_pages(): void
     {
         $user = User::factory()->create(['role' => 'user']);
-        $order = $this->orderFor($user);
+        $payment = $this->pay($user);
 
-        $this->actingAs($user)
-            ->post('/payments/save', ['order_id' => $order->id, 'method' => 'Bitcoin'])
-            ->assertSessionHasErrors('method');
-
-        $this->actingAs($user)
-            ->post('/payments/save', ['order_id' => 9999, 'method' => 'PSE'])
-            ->assertSessionHasErrors('order_id');
-
-        $this->assertSame(0, Payment::count());
+        $this->actingAs($user)->get('/payments')->assertNotFound();
+        $this->actingAs($user)->get('/payments/'.$payment->id)->assertNotFound();
+        $this->actingAs($user)->get('/payments/create')->assertNotFound();
+        $this->actingAs($user)->post('/payments/save', [])->assertNotFound();
     }
 
-    public function test_user_cannot_pay_someone_elses_order(): void
-    {
-        $owner = User::factory()->create(['role' => 'user']);
-        $intruder = User::factory()->create(['role' => 'user']);
-        $order = $this->orderFor($owner);
-
-        $this->actingAs($intruder)
-            ->post('/payments/save', ['order_id' => $order->id, 'method' => 'PSE'])
-            ->assertForbidden();
-
-        $this->assertSame(0, Payment::count());
-        $this->assertSame('Pendiente', $order->fresh()->getStatus());
-    }
-
-    public function test_an_order_cannot_be_paid_twice(): void
+    public function test_the_payment_is_shown_in_the_order_detail(): void
     {
         $user = User::factory()->create(['role' => 'user']);
-        $order = $this->orderFor($user);
-        $data = ['order_id' => $order->id, 'method' => 'PSE'];
+        $payment = $this->pay($user, 80000, 'Efectivo');
 
-        $this->actingAs($user)->post('/payments/save', $data);
-        $this->actingAs($user)->post('/payments/save', $data)->assertSessionHasErrors('order_id');
-
-        $this->assertSame(1, Payment::count());
-    }
-
-    public function test_user_only_sees_own_payments(): void
-    {
-        $user = User::factory()->create(['role' => 'user']);
-        $other = User::factory()->create(['role' => 'user']);
-        $mine = $this->orderFor($user);
-        $theirs = $this->orderFor($other);
-
-        $this->actingAs($user)->post('/payments/save', ['order_id' => $mine->id, 'method' => 'PSE']);
-        $this->actingAs($other)->post('/payments/save', ['order_id' => $theirs->id, 'method' => 'PSE']);
-
-        $this->actingAs($user)->get('/payments')
+        $this->actingAs($user)->get('/orders/'.$payment->order_id)
             ->assertOk()
-            ->assertSee($mine->code)
-            ->assertDontSee($theirs->code);
-
-        $otherPayment = Payment::where('user_id', $other->id)->first();
-
-        $this->actingAs($user)->get('/payments/'.$otherPayment->id)->assertForbidden();
-    }
-
-    public function test_admin_sees_all_payments_in_the_admin_panel(): void
-    {
-        $admin = User::factory()->create(['role' => 'admin']);
-        $first = User::factory()->create(['role' => 'user']);
-        $second = User::factory()->create(['role' => 'user']);
-        $orderOne = $this->orderFor($first);
-        $orderTwo = $this->orderFor($second);
-
-        $this->actingAs($first)->post('/payments/save', ['order_id' => $orderOne->id, 'method' => 'PSE']);
-        $this->actingAs($second)->post('/payments/save', ['order_id' => $orderTwo->id, 'method' => 'PSE']);
-
-        $this->actingAs($admin)->get('/admin/payments')
-            ->assertOk()
-            ->assertSee($orderOne->code)
-            ->assertSee($orderTwo->code);
-
-        $payment = Payment::first();
-
-        $this->actingAs($admin)->get('/admin/payments/'.$payment->id)
-            ->assertOk()
+            ->assertSee('Efectivo')
+            ->assertSee('80.000')
             ->assertSee('Completado');
     }
 
-    public function test_payments_do_not_need_admin_approval(): void
+    public function test_the_navigation_has_no_payments_link(): void
+    {
+        $user = User::factory()->create(['role' => 'user']);
+
+        $this->actingAs($user)->get('/orders')
+            ->assertOk()
+            ->assertSee('Carrito')
+            ->assertSee('Pedidos')
+            ->assertDontSee('Pagos');
+    }
+
+    public function test_payments_cannot_be_changed(): void
     {
         $admin = User::factory()->create(['role' => 'admin']);
         $user = User::factory()->create(['role' => 'user']);
-        $order = $this->orderFor($user);
-
-        $this->actingAs($user)->post('/payments/save', ['order_id' => $order->id, 'method' => 'PSE']);
-        $payment = Payment::first();
+        $payment = $this->pay($user);
 
         $this->actingAs($admin)
             ->patch('/admin/payments/'.$payment->id.'/status', ['status' => 'Fallido'])
             ->assertNotFound();
 
         $this->assertSame('Completado', $payment->fresh()->getStatus());
+    }
+
+    public function test_admin_sees_all_payments_in_the_admin_panel(): void
+    {
+        $admin = User::factory()->create(['role' => 'admin']);
+        $first = $this->pay(User::factory()->create(['role' => 'user']));
+        $second = $this->pay(User::factory()->create(['role' => 'user']));
+
+        $this->actingAs($admin)->get('/admin/payments')
+            ->assertOk()
+            ->assertSee($first->order->code)
+            ->assertSee($second->order->code);
+
+        $this->actingAs($admin)->get('/admin/payments/'.$first->id)
+            ->assertOk()
+            ->assertSee('Completado');
     }
 
     public function test_regular_users_cannot_access_the_admin_payment_panel(): void
