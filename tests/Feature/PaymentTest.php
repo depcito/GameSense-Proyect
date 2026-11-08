@@ -29,7 +29,7 @@ class PaymentTest extends TestCase
         $this->post('/payments/save', [])->assertRedirect('/login');
     }
 
-    public function test_user_can_register_a_payment_with_the_order_total(): void
+    public function test_user_pays_an_order_immediately_with_the_order_total(): void
     {
         $user = User::factory()->create(['role' => 'user']);
         $order = $this->orderFor($user, 150000);
@@ -43,9 +43,11 @@ class PaymentTest extends TestCase
         $payment = Payment::first();
 
         $response->assertRedirect(route('payment.show', ['id' => $payment->id]));
-        $this->assertSame(150000.0, $payment->getAmount());
-        $this->assertSame('Pendiente', $payment->getStatus());
+        $this->assertEquals(150000, $payment->getAmount());
+        $this->assertSame('PSE', $payment->getMethod());
+        $this->assertSame('Completado', $payment->getStatus());
         $this->assertSame($user->id, $payment->user_id);
+        $this->assertSame('Pagado', $order->fresh()->getStatus());
     }
 
     public function test_validation_rejects_invalid_input(): void
@@ -75,13 +77,14 @@ class PaymentTest extends TestCase
             ->assertForbidden();
 
         $this->assertSame(0, Payment::count());
+        $this->assertSame('Pendiente', $order->fresh()->getStatus());
     }
 
-    public function test_duplicate_payment_for_the_same_order_is_rejected(): void
+    public function test_an_order_cannot_be_paid_twice(): void
     {
         $user = User::factory()->create(['role' => 'user']);
         $order = $this->orderFor($user);
-        $data = ['order_id' => $order->id, 'method' => 'Tarjeta'];
+        $data = ['order_id' => $order->id, 'method' => 'PSE'];
 
         $this->actingAs($user)->post('/payments/save', $data);
         $this->actingAs($user)->post('/payments/save', $data)->assertSessionHasErrors('order_id');
@@ -109,69 +112,6 @@ class PaymentTest extends TestCase
         $this->actingAs($user)->get('/payments/'.$otherPayment->id)->assertForbidden();
     }
 
-    public function test_admin_can_confirm_a_payment_and_the_order_becomes_paid(): void
-    {
-        $admin = User::factory()->create(['role' => 'admin']);
-        $user = User::factory()->create(['role' => 'user']);
-        $order = $this->orderFor($user);
-
-        $this->actingAs($user)->post('/payments/save', ['order_id' => $order->id, 'method' => 'PSE']);
-        $payment = Payment::first();
-
-        $this->actingAs($admin)
-            ->patch('/admin/payments/'.$payment->id.'/status', ['status' => 'Completado'])
-            ->assertRedirect(route('admin.payment.show', ['id' => $payment->id]));
-
-        $this->assertSame('Completado', $payment->fresh()->getStatus());
-        $this->assertSame('Pagado', $order->fresh()->getStatus());
-    }
-
-    public function test_failed_payment_allows_a_new_attempt(): void
-    {
-        $admin = User::factory()->create(['role' => 'admin']);
-        $user = User::factory()->create(['role' => 'user']);
-        $order = $this->orderFor($user);
-        $data = ['order_id' => $order->id, 'method' => 'PSE'];
-
-        $this->actingAs($user)->post('/payments/save', $data);
-        $this->actingAs($admin)->patch('/admin/payments/'.Payment::first()->id.'/status', ['status' => 'Fallido']);
-        $this->actingAs($user)->post('/payments/save', $data)->assertSessionHasNoErrors();
-
-        $this->assertSame(2, Payment::count());
-    }
-
-    public function test_regular_users_cannot_change_payment_status(): void
-    {
-        $user = User::factory()->create(['role' => 'user']);
-        $order = $this->orderFor($user);
-
-        $this->actingAs($user)->post('/payments/save', ['order_id' => $order->id, 'method' => 'PSE']);
-        $payment = Payment::first();
-
-        $this->actingAs($user)
-            ->patch('/admin/payments/'.$payment->id.'/status', ['status' => 'Completado'])
-            ->assertForbidden();
-
-        $this->assertSame('Pendiente', $payment->fresh()->getStatus());
-    }
-
-    public function test_confirmed_payment_status_cannot_be_changed_again(): void
-    {
-        $admin = User::factory()->create(['role' => 'admin']);
-        $user = User::factory()->create(['role' => 'user']);
-        $order = $this->orderFor($user);
-
-        $this->actingAs($user)->post('/payments/save', ['order_id' => $order->id, 'method' => 'PSE']);
-        $payment = Payment::first();
-
-        $this->actingAs($admin)->patch('/admin/payments/'.$payment->id.'/status', ['status' => 'Completado']);
-        $this->actingAs($admin)
-            ->patch('/admin/payments/'.$payment->id.'/status', ['status' => 'Fallido'])
-            ->assertSessionHas('error');
-
-        $this->assertSame('Completado', $payment->fresh()->getStatus());
-    }
-
     public function test_admin_sees_all_payments_in_the_admin_panel(): void
     {
         $admin = User::factory()->create(['role' => 'admin']);
@@ -187,6 +127,28 @@ class PaymentTest extends TestCase
             ->assertOk()
             ->assertSee($orderOne->code)
             ->assertSee($orderTwo->code);
+
+        $payment = Payment::first();
+
+        $this->actingAs($admin)->get('/admin/payments/'.$payment->id)
+            ->assertOk()
+            ->assertSee('Completado');
+    }
+
+    public function test_payments_do_not_need_admin_approval(): void
+    {
+        $admin = User::factory()->create(['role' => 'admin']);
+        $user = User::factory()->create(['role' => 'user']);
+        $order = $this->orderFor($user);
+
+        $this->actingAs($user)->post('/payments/save', ['order_id' => $order->id, 'method' => 'PSE']);
+        $payment = Payment::first();
+
+        $this->actingAs($admin)
+            ->patch('/admin/payments/'.$payment->id.'/status', ['status' => 'Fallido'])
+            ->assertNotFound();
+
+        $this->assertSame('Completado', $payment->fresh()->getStatus());
     }
 
     public function test_regular_users_cannot_access_the_admin_payment_panel(): void
