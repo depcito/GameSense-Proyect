@@ -52,10 +52,6 @@
                         {{ __('Productos') }}
                     </a>
 
-                    <a class="nav-link" href="{{ route('review.index') }}">
-                        {{ __('Reseñas') }}
-                    </a>
-
                     <a class="nav-link" href="#">
                         {{ __('Contáctanos') }}
                     </a>
