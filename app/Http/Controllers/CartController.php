@@ -12,11 +12,10 @@ class CartController extends Controller
     public const SESSION_KEY = 'cart';
 
     /**
-     * Show the products the user has added to the cart.
+     * Build the lines and the total of a cart ([product id => quantity]) using the current product prices.
      */
-    public function index(Request $request): View
+    public static function summary(array $cart): array
     {
-        $cart = $request->session()->get(self::SESSION_KEY, []);
         $products = Product::whereIn('id', array_keys($cart))->get()->keyBy('id');
 
         $lines = [];
@@ -39,10 +38,20 @@ class CartController extends Controller
             ];
         }
 
+        return ['lines' => $lines, 'total' => $total];
+    }
+
+    /**
+     * Show the products the user has added to the cart.
+     */
+    public function index(Request $request): View
+    {
+        $summary = self::summary($request->session()->get(self::SESSION_KEY, []));
+
         $viewData = [
             'title' => 'Carrito',
-            'lines' => $lines,
-            'total' => $total,
+            'lines' => $summary['lines'],
+            'total' => $summary['total'],
         ];
 
         return view('cart.index', ['viewData' => $viewData]);

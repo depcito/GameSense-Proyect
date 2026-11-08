@@ -95,13 +95,9 @@
                     </button>
                 </form>
 
-                <form method="POST" action="{{ route('order.save') }}">
-                    @csrf
-
-                    <button type="submit" class="btn btn-primary">
-                        Confirmar pedido
-                    </button>
-                </form>
+                <a href="{{ route('checkout.index') }}" class="btn btn-primary">
+                    Proceder al pago
+                </a>
             </div>
         </div>
     </div>
