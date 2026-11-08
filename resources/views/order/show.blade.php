@@ -60,38 +60,35 @@
                     Total: ${{ number_format($viewData['order']->getTotal(), 0, ',', '.') }} COP
                 </h4>
 
+                <hr>
+
+                <h5 class="mb-3">Datos de envío</h5>
+
+                <p class="mb-1">{{ $viewData['order']->getShippingName() }}</p>
+                <p class="mb-1">{{ $viewData['order']->getShippingAddress() }}, {{ $viewData['order']->getShippingCity() }}</p>
+                <p class="mb-0">Tel. {{ $viewData['order']->getShippingPhone() }}</p>
+
                 @if ($viewData['order']->payments->isNotEmpty())
                     <hr>
 
-                    <h5 class="mb-3">Pagos</h5>
+                    <h5 class="mb-3">Pago</h5>
 
                     @foreach ($viewData['order']->payments as $payment)
                         <p class="mb-1">
-                            <a
-                                href="{{ route('payment.show', ['id' => $payment->getId()]) }}"
-                                class="text-decoration-none"
-                            >
-                                {{ $payment->getMethod() }}
-                            </a>
+                            {{ $payment->getMethod() }}
                             · ${{ number_format($payment->getAmount(), 0, ',', '.') }} COP
                             · {{ $payment->getStatus() }}
+                            · {{ $payment->getDate()->format('d/m/Y') }}
                         </p>
                     @endforeach
                 @endif
 
                 <div class="d-flex flex-wrap gap-2 mt-4">
-                    @if ($viewData['canPay'])
-                        <a
-                            href="{{ route('payment.create', ['order_id' => $viewData['order']->getId()]) }}"
-                            class="btn btn-primary"
-                        >
-                            Pagar pedido
-                        </a>
-
+                    @if ($viewData['canCancel'])
                         <form
                             method="POST"
                             action="{{ route('order.cancel', ['id' => $viewData['order']->getId()]) }}"
-                            onsubmit="return confirm('¿Estás seguro de cancelar este pedido?')"
+                            onsubmit="return confirm('¿Estás seguro de cancelar este pedido? El pago será reembolsado.')"
                         >
                             @csrf
 

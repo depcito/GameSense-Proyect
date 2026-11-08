@@ -63,6 +63,6 @@ class OrderController extends Controller
         }
 
         return redirect()->route('admin.order.show', ['id' => $id])
-            ->with('success', 'Pedido cancelado correctamente.');
+            ->with('success', 'Pedido cancelado. El pago fue reembolsado.');
     }
 }

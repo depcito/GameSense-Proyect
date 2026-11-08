@@ -69,6 +69,14 @@
                 </table>
             </div>
 
+            <hr>
+
+            <h5 class="mb-3">Datos de envío</h5>
+
+            <p class="mb-1">{{ $viewData['order']->getShippingName() }}</p>
+            <p class="mb-1">{{ $viewData['order']->getShippingAddress() }}, {{ $viewData['order']->getShippingCity() }}</p>
+            <p class="mb-0">Tel. {{ $viewData['order']->getShippingPhone() }}</p>
+
             @if ($viewData['order']->payments->isNotEmpty())
                 <hr>
 
@@ -92,7 +100,7 @@
                 <form
                     method="POST"
                     action="{{ route('admin.order.cancel', ['id' => $viewData['order']->getId()]) }}"
-                    onsubmit="return confirm('¿Estás seguro de cancelar este pedido?')">
+                    onsubmit="return confirm('¿Estás seguro de cancelar este pedido? El pago será reembolsado.')">
                     @csrf
 
                     <button type="submit" class="btn btn-outline-danger">
