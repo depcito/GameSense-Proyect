@@ -30,3 +30,10 @@ Route::middleware('auth')->group(function () {
     Route::post('/orders/{id}/cancel', 'App\Http\Controllers\OrderController@cancel')->name('order.cancel');
 
 }); 
+
+// Reviews (authenticated users)
+Route::middleware('auth')->group(function () {
+    Route::get('/reviews/create', 'App\Http\Controllers\ReviewController@create')->name('review.create');
+    Route::post('/reviews/save', 'App\Http\Controllers\ReviewController@save')->name('review.save');
+    Route::delete('/reviews/{id}', 'App\Http\Controllers\ReviewController@delete')->whereNumber('id')->name('review.delete');
+});
