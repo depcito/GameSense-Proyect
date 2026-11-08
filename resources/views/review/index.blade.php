@@ -24,6 +24,12 @@
     @endauth
 </div>
 
+@if (session('success'))
+    <div class="alert alert-success">
+        {{ session('success') }}
+    </div>
+@endif
+
 <div class="row">
     @forelse ($viewData['reviews'] as $review)
         <div class="col-md-6 mb-4">

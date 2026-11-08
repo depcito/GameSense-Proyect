@@ -63,7 +63,9 @@ class ReviewController extends Controller
 
         $review->save();
 
-        return redirect()->route('review.index', ['product_id' => $validated['product_id']]);
+        return redirect()
+            ->route('review.index', ['product_id' => $validated['product_id']])
+            ->with('success', 'Reseña publicada correctamente.');
     }
 
     public function show(int $id): View
@@ -77,21 +79,19 @@ class ReviewController extends Controller
     }
 
     /**
-     * Only the author of the review (or an admin) can delete it.
+     * Only the author can delete a review from here. Admins moderate reviews from the admin panel.
      */
     public function delete(int $id): RedirectResponse
     {
         $review = Review::findOrFail($id);
-        $user = Auth::user();
 
-        abort_unless(
-            $review->user_id === $user->getId() || $user->getRole() === 'admin',
-            403
-        );
+        abort_unless($review->user_id === Auth::id(), 403);
 
         $productId = $review->product_id;
         $review->delete();
 
-        return redirect()->route('review.index', ['product_id' => $productId]);
+        return redirect()
+            ->route('review.index', ['product_id' => $productId])
+            ->with('success', 'Reseña eliminada correctamente.');
     }
 }

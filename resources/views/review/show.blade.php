@@ -51,7 +51,7 @@
                     </a>
 
                     @auth
-                        @if (Auth::id() === $viewData['review']->user_id || Auth::user()->getRole() === 'admin')
+                        @if (Auth::id() === $viewData['review']->user_id)
                             <form method="POST" action="{{ route('review.delete', ['id' => $viewData['review']->getId()]) }}">
                                 @csrf
                                 @method('DELETE')
