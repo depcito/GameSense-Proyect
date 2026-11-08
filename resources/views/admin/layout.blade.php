@@ -120,6 +120,12 @@
                                 Administrar pagos
                             </a>
 
+                            <a
+                                href="{{ route('admin.review.index') }}"
+                                class="nav-link {{ request()->routeIs('admin.review.*') ? 'active' : '' }}">
+                                Administrar reseñas
+                            </a>
+
                         </nav>
 
                     @endif

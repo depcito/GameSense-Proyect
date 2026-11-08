@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\PaymentController;
 use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\ReviewController;
 use Illuminate\Support\Facades\Route;
 
 Route::redirect('/', '/admin/users');
@@ -38,3 +39,7 @@ Route::post('/orders/{id}/cancel', [OrderController::class, 'cancel'])->name('or
 // Payments
 Route::get('/payments', [PaymentController::class, 'index'])->name('payment.index');
 Route::get('/payments/{id}', [PaymentController::class, 'show'])->name('payment.show');
+
+// Reviews
+Route::get('/reviews', [ReviewController::class, 'index'])->name('review.index');
+Route::delete('/reviews/{id}', [ReviewController::class, 'destroy'])->name('review.destroy');
