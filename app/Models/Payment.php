@@ -10,23 +10,43 @@ class Payment extends Model
 {
     public const METHODS = ['Tarjeta', 'PSE', 'Transferencia', 'Efectivo'];
 
-    public const STATUS_PENDING = 'Pendiente';
-
     public const STATUS_COMPLETED = 'Completado';
-
-    public const STATUS_FAILED = 'Fallido';
 
     /**
      * PAYMENT ATTRIBUTES
      * $this->attributes['id'] - int - contains the payment primary key (id)
      * $this->attributes['method'] - string - contains the payment method chosen by the user
      * $this->attributes['amount'] - float - contains the amount paid (always the order total)
-     * $this->attributes['date'] - date - contains the date the payment was registered
-     * $this->attributes['status'] - string - contains the payment status ("Pendiente", "Completado" or "Fallido")
+     * $this->attributes['date'] - date - contains the date the payment was made
+     * $this->attributes['status'] - string - contains the payment status ("Completado")
      * $this->order - Order - contains the order being paid
      * $this->user - User - contains the user who made the payment
      */
     protected $fillable = ['method', 'amount', 'date', 'status', 'order_id', 'user_id'];
+
+    /**
+     * Pay an order in full. Payments are immediate, so the payment is created as completed
+     * and the order is marked as paid. The amount is always the order total.
+     */
+    public static function register(Order $order, string $method): self
+    {
+        $payment = new self;
+
+        $payment->setMethod($method);
+        $payment->setAmount($order->getTotal());
+        $payment->setDate(now()->toDateString());
+        $payment->setStatus(self::STATUS_COMPLETED);
+
+        $payment->order_id = $order->getId();
+        $payment->user_id = $order->user_id;
+
+        $payment->save();
+
+        $order->setStatus('Pagado');
+        $order->save();
+
+        return $payment;
+    }
 
     public function getId(): int
     {
