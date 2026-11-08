@@ -4,10 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Payment;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Validation\Rule;
 use Illuminate\View\View;
 
 class PaymentController extends Controller
@@ -52,42 +49,5 @@ class PaymentController extends Controller
         ];
 
         return view('admin.payment.show', ['viewData' => $viewData]);
-    }
-
-    /**
-     * Confirm or reject a pending payment. A confirmed payment marks its order as paid.
-     */
-    public function updateStatus(Request $request, int $id): RedirectResponse
-    {
-        $validated = $request->validate([
-            'status' => ['required', 'string', Rule::in([Payment::STATUS_COMPLETED, Payment::STATUS_FAILED])],
-        ]);
-
-        $updated = DB::transaction(function () use ($id, $validated) {
-            $payment = Payment::lockForUpdate()->findOrFail($id);
-
-            if ($payment->getStatus() !== Payment::STATUS_PENDING) {
-                return false;
-            }
-
-            $payment->setStatus($validated['status']);
-            $payment->save();
-
-            if ($validated['status'] === Payment::STATUS_COMPLETED) {
-                $order = $payment->order;
-                $order->setStatus('Pagado');
-                $order->save();
-            }
-
-            return true;
-        });
-
-        if (! $updated) {
-            return redirect()->route('admin.payment.show', ['id' => $id])
-                ->with('error', 'Solo se puede cambiar el estado de un pago pendiente.');
-        }
-
-        return redirect()->route('admin.payment.show', ['id' => $id])
-            ->with('success', 'Estado del pago actualizado correctamente.');
     }
 }

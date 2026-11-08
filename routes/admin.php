@@ -32,4 +32,3 @@ Route::delete('/products/{id}', [ProductController::class, 'destroy'])->name('pr
 // Payments
 Route::get('/payments', [PaymentController::class, 'index'])->name('payment.index');
 Route::get('/payments/{id}', [PaymentController::class, 'show'])->name('payment.show');
-Route::patch('/payments/{id}/status', [PaymentController::class, 'updateStatus'])->name('payment.updateStatus');
