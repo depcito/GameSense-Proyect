@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Models\Order;
 use App\Utils\EnumLabel;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Arr;
 use Tests\TestCase;
 
 class LocaleTest extends TestCase
@@ -73,8 +74,8 @@ class LocaleTest extends TestCase
 
             $this->assertFileExists($english);
             $this->assertEqualsCanonicalizing(
-                array_keys(\Illuminate\Support\Arr::dot(require $file)),
-                array_keys(\Illuminate\Support\Arr::dot(require $english)),
+                array_keys(Arr::dot(require $file)),
+                array_keys(Arr::dot(require $english)),
                 'Missing or extra keys in '.$english
             );
         }
