@@ -6,17 +6,17 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">Confirmar contraseña</div>
+                <div class="card-header">{{ __('common.confirmar_contrasena') }}</div>
 
                 <div class="card-body">
-                    <p>Por favor, confirma tu contraseña antes de continuar.</p>
+                    <p>{{ __('auth/passwords/confirm.por_favor_confirma_tu') }}</p>
 
                     <form method="POST" action="{{ route('password.confirm') }}">
                         @csrf
 
                         <div class="row mb-3">
                             <label for="password" class="col-md-4 col-form-label text-md-end">
-                                Contraseña
+                                {{ __('common.contrasena') }}
                             </label>
 
                             <div class="col-md-6">
@@ -40,12 +40,12 @@
                         <div class="row mb-0">
                             <div class="col-md-8 offset-md-4">
                                 <button type="submit" class="btn btn-primary">
-                                    Confirmar contraseña
+                                    {{ __('common.confirmar_contrasena') }}
                                 </button>
 
                                 @if (Route::has('password.request'))
                                     <a class="btn btn-link" href="{{ route('password.request') }}">
-                                        ¿Olvidaste tu contraseña?
+                                        {{ __('auth/passwords/confirm.olvidaste_tu_contrasena') }}
                                     </a>
                                 @endif
                             </div>

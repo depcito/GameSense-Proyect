@@ -5,7 +5,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">Restablecer contraseña</div>
+                <div class="card-header">{{ __('auth/passwords/email.restablecer_contrasena') }}</div>
 
                 <div class="card-body">
                     @if (session('status'))
@@ -19,7 +19,7 @@
 
                         <div class="row mb-3">
                             <label for="email" class="col-md-4 col-form-label text-md-end">
-                                Correo electrónico
+                                {{ __('common.correo_electronico') }}
                             </label>
 
                             <div class="col-md-6">
@@ -45,7 +45,7 @@
                         <div class="row mb-0">
                             <div class="col-md-6 offset-md-4">
                                 <button type="submit" class="btn btn-primary">
-                                    Enviar enlace para restablecer la contraseña
+                                    {{ __('auth/passwords/email.enviar_enlace_para_restablecer') }}
                                 </button>
                             </div>
                         </div>

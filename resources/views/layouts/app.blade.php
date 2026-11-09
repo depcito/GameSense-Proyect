@@ -22,7 +22,7 @@
         <div class="container">
 
             <a class="navbar-brand" href="{{ route('home.index') }}">
-                GameSense
+                {{ __('layouts/app.gamesense') }}
             </a>
 
             <button
@@ -32,7 +32,7 @@
                 data-bs-target="#navbarNavAltMarkup"
                 aria-controls="navbarNavAltMarkup"
                 aria-expanded="false"
-                aria-label="{{ __('Abrir menú de navegación') }}">
+                aria-label="{{ __('layouts/app.abrir_menu_de_navegacion') }}">
 
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -41,19 +41,19 @@
                 <div class="navbar-nav ms-auto">
 
                     <a class="nav-link" href="{{ route('home.index') }}">
-                        {{ __('Inicio') }}
+                        {{ __('layouts/app.inicio') }}
                     </a>
 
                     <a class="nav-link" href="{{ route('category.index') }}">
-                        {{ __('Categorías') }}
+                        {{ __('layouts/app.categorias') }}
                     </a>
 
                     <a class="nav-link" href="{{ route('product.index') }}">
-                        {{ __('Productos') }}
+                        {{ __('common.productos') }}
                     </a>
 
                     <a class="nav-link" href="#">
-                        {{ __('Contáctanos') }}
+                        {{ __('layouts/app.contactanos') }}
                     </a>
 
                     <div class="vr bg-white mx-2 d-none d-lg-block"></div>
@@ -61,26 +61,26 @@
                     @guest
 
                         <a class="nav-link" href="{{ route('login') }}">
-                            {{ __('Iniciar sesión') }}
+                            {{ __('layouts/app.iniciar_sesion') }}
                         </a>
 
                         <a class="nav-link" href="{{ route('register') }}">
-                            {{ __('Registrarse') }}
+                            {{ __('layouts/app.registrarse') }}
                         </a>
 
                     @else
 
                         <a class="nav-link" href="{{ route('cart.index') }}">
-                            {{ __('Carrito') }}
+                            {{ __('layouts/app.carrito') }}
                         </a>
 
                         <a class="nav-link" href="{{ route('order.index') }}">
-                            {{ __('Pedidos') }}
+                            {{ __('layouts/app.pedidos') }}
                         </a>
 
                         @if (auth()->user()->getRole() === 'admin')
                             <a class="nav-link" href="{{ route('admin.users.index') }}">
-                                {{ __('Panel de administración') }}
+                                {{ __('layouts/app.panel_de_administracion') }}
                             </a>
                         @endif
 
@@ -88,7 +88,7 @@
                             @csrf
 
                             <button type="submit" class="nav-link border-0 bg-transparent">
-                                {{ __('Cerrar sesión') }}
+                                {{ __('layouts/app.cerrar_sesion') }}
                             </button>
                         </form>
 
@@ -113,7 +113,7 @@
     <footer class="copyright py-4 text-center text-white">
         <div class="container">
             <p class="mb-0">
-                &copy; {{ date('Y') }} {{ __('Los mejores en esto.') }}
+                &copy; {{ date('Y') }} {{ __('layouts/app.los_mejores_en_esto') }}
             </p>
         </div>
     </footer>
