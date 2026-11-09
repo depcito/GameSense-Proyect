@@ -18,15 +18,15 @@
                 <div class="card category-card h-100 border-0 shadow-sm">
 
                     @if ($product->getImageUrl())
-                        <img
-                            src="{{ $product->getImageUrl() }}"
+                        <img src="{{ $product->getImageUrl() ?? asset('images/placeholder.png') }}"
                             alt="{{ $product->getTitle() }}"
                             class="card-img-top"
-                            style="height: 180px; object-fit: cover;"
+                            style="height: 300px; object-fit: cover;"
                         >
                     @endif
 
-                    <div class="category-cover d-flex align-items-center justify-content-center">
+                    <div class="category-cover d-flex align-items-center justify-content-center px-2"
+                        style="height: 60px; min-height: 0;">
                         <h3 class="category-name text-center">
                             {{ $product->getTitle() }}
                         </h3>

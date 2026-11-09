@@ -1,4 +1,3 @@
-
 @extends('layouts.app')
 
 @section('title', __('home/index.gamesense_inicio'))
@@ -33,7 +32,13 @@
                 class="text-decoration-none text-reset">
 
                 <div class="card category-card h-100">
-                    <div class="category-cover d-flex align-items-center justify-content-center">
+
+                    <img src="{{ $product->getImageUrl() ?? asset('public/placeholder.png') }}"
+                        alt="{{ $product->getTitle() }}"
+                        class="card-img-top w-100"
+                        style="aspect-ratio: 16 / 10; object-fit: cover;">
+
+                    <div class="category-cover product-cover d-flex align-items-center justify-content-center px-2">
                         <h4 class="category-name text-center">
                             {{ $product->getTitle() }}
                         </h4>

@@ -21,8 +21,11 @@
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary py-4">
         <div class="container">
 
-            <a class="navbar-brand" href="{{ route('home.index') }}">
-                {{ __('layouts/app.gamesense') }}
+            <a class="navbar-brand d-flex align-items-center" href="{{ route('home.index') }}">
+                <img src="{{ asset('logo.png') }}"
+                    alt="{{ __('layouts/app.gamesense') }}"
+                    height="120"
+                    class="d-inline-block align-text-top">
             </a>
 
             <button
@@ -38,7 +41,7 @@
             </button>
 
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-                <div class="navbar-nav ms-auto">
+                <div class="navbar-nav ms-auto fs-4 align-items-lg-center">
 
                     <a class="nav-link" href="{{ route('home.index') }}">
                         {{ __('layouts/app.inicio') }}
