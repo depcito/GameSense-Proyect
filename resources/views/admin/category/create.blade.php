@@ -8,7 +8,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">Crear categoría</div>
+                <div class="card-header">{{ __('admin/category/create.crear_categoria') }}</div>
 
                 <div class="card-body">
 
@@ -27,28 +27,28 @@
                     >
                         @csrf
 
-                        <label for="name" class="form-label">Nombre</label>
+                        <label for="name" class="form-label">{{ __('common.nombre') }}</label>
                         <input
                             type="text"
                             class="form-control mb-3"
                             id="name"
                             name="name"
-                            placeholder="Ingresa el nombre de la categoría"
+                            placeholder="{{ __('admin/category/create.ingresa_el_nombre_de') }}"
                             value="{{ old('name') }}"
                             required
                         />
 
-                        <label for="description" class="form-label">Descripción</label>
+                        <label for="description" class="form-label">{{ __('common.descripcion') }}</label>
                         <textarea
                             class="form-control mb-3"
                             id="description"
                             name="description"
-                            placeholder="Ingresa una breve descripción"
+                            placeholder="{{ __('admin/category/create.ingresa_una_breve_descripcion') }}"
                             rows="3"
                             required
                         >{{ old('description') }}</textarea>
 
-                        <label for="image" class="form-label">Imagen de la categoría</label>
+                        <label for="image" class="form-label">{{ __('admin/category/create.imagen_de_la_categoria') }}</label>
                         <input
                             type="file"
                             class="form-control mb-3"
@@ -58,14 +58,14 @@
                         />
 
                         <button type="submit" class="btn btn-primary">
-                            Crear categoría
+                            {{ __('admin/category/create.crear_categoria') }}
                         </button>
 
                         <a
                             href="{{ route('admin.category.index') }}"
                             class="btn btn-secondary"
                         >
-                            Cancelar
+                            {{ __('common.cancelar') }}
                         </a>
                     </form>
 

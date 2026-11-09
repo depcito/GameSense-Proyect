@@ -15,7 +15,7 @@ class OrderController extends Controller
     public function index(): View
     {
         $viewData = [
-            'title' => 'Pedidos',
+            'title' => __('controllers/OrderController.title.index'),
             'orders' => Order::withCount('items')
                 ->where('user_id', Auth::id())
                 ->latest('date')
@@ -33,7 +33,7 @@ class OrderController extends Controller
         $this->authorizeAccess($order);
 
         $viewData = [
-            'title' => 'Detalle del pedido',
+            'title' => __('controllers/OrderController.title.show'),
             'order' => $order,
             'canCancel' => $order->canBeCancelled(),
         ];
@@ -49,11 +49,11 @@ class OrderController extends Controller
 
         if (! $order->cancel()) {
             return redirect()->route('order.show', ['id' => $id])
-                ->with('error', 'Este pedido ya no se puede cancelar.');
+                ->with('error', __('controllers/OrderController.cannot_cancel'));
         }
 
         return redirect()->route('order.show', ['id' => $id])
-            ->with('success', 'Pedido cancelado. El pago fue reembolsado.');
+            ->with('success', __('controllers/OrderController.cancelled'));
     }
 
     /**

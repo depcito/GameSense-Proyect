@@ -28,7 +28,7 @@ class CategoryController extends Controller
             ->withQueryString();
 
         $viewData = [
-            'title' => 'Manage Categories',
+            'title' => __('controllers/Admin/CategoryController.title.index'),
             'categories' => $categories,
             'search' => $search,
         ];
@@ -39,7 +39,7 @@ class CategoryController extends Controller
     public function create(): View
     {
         $viewData = [
-            'title' => 'Create Category',
+            'title' => __('controllers/Admin/CategoryController.title.create'),
         ];
 
         return view('admin.category.create', ['viewData' => $viewData]);
@@ -75,13 +75,13 @@ class CategoryController extends Controller
         $category->save();
 
         return redirect()->route('admin.category.index')
-            ->with('success', 'Categoría creada correctamente.');
+            ->with('success', __('controllers/Admin/CategoryController.created'));
     }
 
     public function show(int $id): View
     {
         $viewData = [
-            'title' => 'Category Details',
+            'title' => __('controllers/Admin/CategoryController.title.show'),
             'category' => Category::with('products')->findOrFail($id),
         ];
 
@@ -91,7 +91,7 @@ class CategoryController extends Controller
     public function edit(int $id): View
     {
         $viewData = [
-            'title' => 'Edit Category',
+            'title' => __('controllers/Admin/CategoryController.title.edit'),
             'category' => Category::findOrFail($id),
         ];
 
@@ -134,7 +134,7 @@ class CategoryController extends Controller
         $category->save();
 
         return redirect()->route('admin.category.index')
-            ->with('success', 'Categoría actualizada correctamente.');
+            ->with('success', __('controllers/Admin/CategoryController.updated'));
     }
 
     public function destroy(int $id): RedirectResponse
@@ -143,6 +143,6 @@ class CategoryController extends Controller
         $category->delete();
 
         return redirect()->route('admin.category.index')
-            ->with('success', 'Categoría eliminada correctamente.');
+            ->with('success', __('controllers/Admin/CategoryController.deleted'));
     }
 }

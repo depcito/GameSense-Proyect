@@ -25,11 +25,11 @@ class CheckoutController extends Controller
 
         if ($summary['lines'] === []) {
             return redirect()->route('cart.index')
-                ->withErrors(['cart' => 'Tu carrito está vacío.']);
+                ->withErrors(['cart' => __('controllers/CheckoutController.empty')]);
         }
 
         $viewData = [
-            'title' => 'Finalizar compra',
+            'title' => __('controllers/CheckoutController.title.index'),
             'lines' => $summary['lines'],
             'total' => $summary['total'],
             'methods' => Payment::METHODS,
@@ -48,7 +48,7 @@ class CheckoutController extends Controller
 
         if ($cart === []) {
             return redirect()->route('cart.index')
-                ->withErrors(['cart' => 'Tu carrito está vacío.']);
+                ->withErrors(['cart' => __('controllers/CheckoutController.empty')]);
         }
 
         $validated = $request->validate([
@@ -71,9 +71,9 @@ class CheckoutController extends Controller
                 $product = $products->get($productId);
 
                 if ($product === null) {
-                    $errors[] = 'Uno de los productos del carrito ya no está disponible.';
+                    $errors[] = __('controllers/CheckoutController.product_unavailable');
                 } elseif ($quantity > $product->getStock()) {
-                    $errors[] = 'Solo hay '.$product->getStock().' unidades disponibles de '.$product->getTitle().'.';
+                    $errors[] = __('controllers/CheckoutController.insufficient_stock', ['stock' => $product->getStock(), 'product' => $product->getTitle()]);
                 }
             }
 
@@ -128,7 +128,7 @@ class CheckoutController extends Controller
         $request->session()->forget(CartController::SESSION_KEY);
 
         return redirect()->route('order.show', ['id' => $order->getId()])
-            ->with('success', 'Compra realizada correctamente. Tu pedido fue pagado.');
+            ->with('success', __('controllers/CheckoutController.completed'));
     }
 
     private function generateCode(): string

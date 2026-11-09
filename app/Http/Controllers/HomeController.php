@@ -11,7 +11,7 @@ class HomeController extends Controller
     public function index(): View
     {
         $viewData = [
-            'title' => 'Inicio',
+            'title' => __('controllers/HomeController.title.index'),
             'featuredProducts' => Product::with('category')
                 ->take(4)
                 ->get(),

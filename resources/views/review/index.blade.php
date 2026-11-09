@@ -2,15 +2,15 @@
 
 @section('title', $viewData['title'])
 
-@section('subtitle', $viewData['product'] ? 'Reseñas de ' . $viewData['product']->getTitle() : 'Reseñas de nuestros productos')
+@section('subtitle', $viewData['product'] ? __('review/index.reviews_of', ['product' => $viewData['product']->getTitle()]) : __('review/index.reviews_of_our_products'))
 
 @section('content')
 <div class="d-flex justify-content-between align-items-center mb-4">
     <h3 class="mb-0">
         @if ($viewData['product'])
-            Reseñas de {{ $viewData['product']->getTitle() }}
+            {{ __('review/index.reviews_of', ['product' => $viewData['product']->getTitle()]) }}
         @else
-            Todas las reseñas
+            {{ __('review/index.all_reviews') }}
         @endif
     </h3>
 
@@ -19,7 +19,7 @@
             href="{{ route('review.create', $viewData['product'] ? ['product_id' => $viewData['product']->getId()] : []) }}"
             class="btn btn-primary"
         >
-            Escribir reseña
+            {{ __('review/index.escribir_resena') }}
         </a>
     @endauth
 </div>
@@ -41,7 +41,7 @@
                                 href="{{ route('review.show', ['id' => $review->getId()]) }}"
                                 class="text-decoration-none"
                             >
-                                {{ $review->getProduct()?->getTitle() ?? 'Producto eliminado' }}
+                                {{ $review->getProduct()?->getTitle() ?? __('common.product_deleted') }}
                             </a>
                         </h5>
                         <span class="fw-bold">
@@ -54,7 +54,7 @@
                     </p>
 
                     <p class="text-muted small mb-0">
-                        Por {{ $review->getUser()?->getName() ?? 'Usuario eliminado' }}
+                        {{ __('review/index.by_user', ['user' => $review->getUser()?->getName() ?? __('common.user_deleted')]) }}
                         · {{ $review->getDate()->format('d/m/Y') }}
                     </p>
                 </div>
@@ -62,9 +62,9 @@
         </div>
     @empty
         <div class="col-12 text-center py-5">
-            <h4>No hay reseñas disponibles</h4>
+            <h4>{{ __('review/index.no_hay_resenas_disponibles') }}</h4>
             <p class="text-muted">
-                Todavía no hay reseñas para mostrar.
+                {{ __('review/index.todavia_no_hay_resenas') }}
             </p>
         </div>
     @endforelse

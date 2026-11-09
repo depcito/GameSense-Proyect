@@ -32,7 +32,7 @@ class OrderController extends Controller
             ->withQueryString();
 
         $viewData = [
-            'title' => 'Manage Orders',
+            'title' => __('controllers/Admin/OrderController.title.index'),
             'orders' => $orders,
             'search' => $search,
         ];
@@ -45,7 +45,7 @@ class OrderController extends Controller
         $order = Order::with(['user', 'items.product', 'payments'])->findOrFail($id);
 
         $viewData = [
-            'title' => 'Order Details',
+            'title' => __('controllers/Admin/OrderController.title.show'),
             'order' => $order,
             'canCancel' => $order->canBeCancelled(),
         ];
@@ -59,10 +59,10 @@ class OrderController extends Controller
 
         if (! $order->cancel()) {
             return redirect()->route('admin.order.show', ['id' => $id])
-                ->with('error', 'Este pedido ya no se puede cancelar.');
+                ->with('error', __('controllers/Admin/OrderController.cannot_cancel'));
         }
 
         return redirect()->route('admin.order.show', ['id' => $id])
-            ->with('success', 'Pedido cancelado. El pago fue reembolsado.');
+            ->with('success', __('controllers/Admin/OrderController.cancelled'));
     }
 }

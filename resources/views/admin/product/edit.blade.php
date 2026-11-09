@@ -8,7 +8,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">Editar producto</div>
+                <div class="card-header">{{ __('admin/product/edit.editar_producto') }}</div>
 
                 <div class="card-body">
 
@@ -28,7 +28,7 @@
                         @csrf
                         @method('PUT')
 
-                        <label for="title" class="form-label">Nombre del producto</label>
+                        <label for="title" class="form-label">{{ __('admin/product/edit.nombre_del_producto') }}</label>
                         <input
                             type="text"
                             class="form-control mb-3"
@@ -38,7 +38,7 @@
                             required
                         />
 
-                        <label for="description" class="form-label">Descripción</label>
+                        <label for="description" class="form-label">{{ __('common.descripcion') }}</label>
                         <textarea
                             class="form-control mb-3"
                             id="description"
@@ -47,7 +47,7 @@
                             required
                         >{{ old('description', $viewData['product']->getDescription()) }}</textarea>
 
-                        <label for="price" class="form-label">Precio (COP)</label>
+                        <label for="price" class="form-label">{{ __('admin/product/edit.precio_cop') }}</label>
                         <input
                             type="number"
                             class="form-control mb-3"
@@ -59,7 +59,7 @@
                             required
                         />
 
-                        <label for="stock" class="form-label">Stock</label>
+                        <label for="stock" class="form-label">{{ __('common.stock') }}</label>
                         <input
                             type="number"
                             class="form-control mb-3"
@@ -70,7 +70,7 @@
                             required
                         />
 
-                        <label for="format" class="form-label">Formato</label>
+                        <label for="format" class="form-label">{{ __('common.formato') }}</label>
                         <input
                             type="text"
                             class="form-control mb-3"
@@ -80,7 +80,7 @@
                             required
                         />
 
-                        <label for="type" class="form-label">Tipo</label>
+                        <label for="type" class="form-label">{{ __('common.tipo') }}</label>
                         <input
                             type="text"
                             class="form-control mb-3"
@@ -90,7 +90,7 @@
                             required
                         />
 
-                        <label for="platform" class="form-label">Plataforma</label>
+                        <label for="platform" class="form-label">{{ __('common.plataforma') }}</label>
                         <input
                             type="text"
                             class="form-control mb-3"
@@ -100,14 +100,14 @@
                             required
                         />
 
-                        <label for="category_id" class="form-label">Categoría</label>
+                        <label for="category_id" class="form-label">{{ __('admin/product/edit.categoria') }}</label>
                         <select
                             class="form-control mb-3"
                             id="category_id"
                             name="category_id"
                             required
                         >
-                            <option value="">Selecciona una categoría</option>
+                            <option value="">{{ __('admin/product/edit.selecciona_una_categoria') }}</option>
 
                             @foreach($viewData['categories'] as $category)
                                 <option
@@ -121,7 +121,7 @@
 
                         @if($viewData['product']->getImageUrl())
                             <div class="mb-3">
-                                <p>Imagen actual:</p>
+                                <p>{{ __('admin/product/edit.imagen_actual') }}</p>
 
                                 <img
                                     src="{{ $viewData['product']->getImageUrl() }}"
@@ -132,7 +132,7 @@
                         @endif
 
                         <label for="image" class="form-label">
-                            Seleccionar nueva imagen
+                            {{ __('admin/product/edit.seleccionar_nueva_imagen') }}
                         </label>
 
                         <input
@@ -144,14 +144,14 @@
                         />
 
                         <button type="submit" class="btn btn-primary">
-                            Actualizar producto
+                            {{ __('admin/product/edit.actualizar_producto') }}
                         </button>
 
                         <a
                             href="{{ route('admin.product.index') }}"
                             class="btn btn-secondary"
                         >
-                            Cancelar
+                            {{ __('common.cancelar') }}
                         </a>
                     </form>
 

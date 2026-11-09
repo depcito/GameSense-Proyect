@@ -2,14 +2,14 @@
 
 @section('title', $viewData['title'])
 
-@section('subtitle', 'Completa tus datos y paga')
+@section('subtitle', __('checkout/index.completa_tus_datos_y'))
 
 @section('content')
 <div class="d-flex justify-content-between align-items-center mb-4">
-    <h3 class="mb-0">Finalizar compra</h3>
+    <h3 class="mb-0">{{ __('checkout/index.finalizar_compra') }}</h3>
 
     <a href="{{ route('cart.index') }}" class="btn btn-outline-secondary">
-        Volver al carrito
+        {{ __('checkout/index.volver_al_carrito') }}
     </a>
 </div>
 
@@ -30,10 +30,10 @@
         <div class="col-lg-7 mb-4">
             <div class="card border-0 shadow-sm mb-4">
                 <div class="card-body p-4">
-                    <h4 class="mb-4">Datos de envío</h4>
+                    <h4 class="mb-4">{{ __('common.datos_de_envio') }}</h4>
 
                     <div class="mb-3">
-                        <label for="shipping_name" class="form-label">Nombre completo</label>
+                        <label for="shipping_name" class="form-label">{{ __('checkout/index.nombre_completo') }}</label>
                         <input
                             type="text"
                             name="shipping_name"
@@ -45,7 +45,7 @@
                     </div>
 
                     <div class="mb-3">
-                        <label for="shipping_phone" class="form-label">Teléfono</label>
+                        <label for="shipping_phone" class="form-label">{{ __('checkout/index.telefono') }}</label>
                         <input
                             type="text"
                             name="shipping_phone"
@@ -57,7 +57,7 @@
                     </div>
 
                     <div class="mb-3">
-                        <label for="shipping_address" class="form-label">Dirección</label>
+                        <label for="shipping_address" class="form-label">{{ __('common.direccion') }}</label>
                         <input
                             type="text"
                             name="shipping_address"
@@ -69,7 +69,7 @@
                     </div>
 
                     <div class="mb-0">
-                        <label for="shipping_city" class="form-label">Ciudad</label>
+                        <label for="shipping_city" class="form-label">{{ __('checkout/index.ciudad') }}</label>
                         <input
                             type="text"
                             name="shipping_city"
@@ -84,22 +84,22 @@
 
             <div class="card border-0 shadow-sm">
                 <div class="card-body p-4">
-                    <h4 class="mb-4">Método de pago</h4>
+                    <h4 class="mb-4">{{ __('checkout/index.metodo_de_pago') }}</h4>
 
                     <div class="mb-3">
-                        <label for="method" class="form-label">Método</label>
+                        <label for="method" class="form-label">{{ __('checkout/index.metodo') }}</label>
                         <select name="method" id="method" class="form-select" required>
-                            <option value="">Selecciona un método</option>
+                            <option value="">{{ __('checkout/index.selecciona_un_metodo') }}</option>
                             @foreach ($viewData['methods'] as $method)
                                 <option value="{{ $method }}" @selected(old('method') == $method)>
-                                    {{ $method }}
+                                    {{ App\Utils\EnumLabel::for('models/Payment.method', $method) }}
                                 </option>
                             @endforeach
                         </select>
                     </div>
 
                     <p class="text-muted small mb-0">
-                        El pago se realiza de inmediato por el total de la compra. No se almacenan datos de tarjetas.
+                        {{ __('checkout/index.el_pago_se_realiza') }}
                     </p>
                 </div>
             </div>
@@ -108,7 +108,7 @@
         <div class="col-lg-5 mb-4">
             <div class="card border-0 shadow-sm">
                 <div class="card-body p-4">
-                    <h4 class="mb-4">Resumen del pedido</h4>
+                    <h4 class="mb-4">{{ __('checkout/index.resumen_del_pedido') }}</h4>
 
                     @foreach ($viewData['lines'] as $line)
                         <div class="d-flex justify-content-between align-items-center border-bottom border-secondary py-2">
@@ -117,22 +117,22 @@
 
                                 <div class="text-muted small">
                                     {{ $line['quantity'] }} x
-                                    ${{ number_format($line['product']->getPrice(), 0, ',', '.') }} COP
+                                    {{ __('common.money', ['amount' => number_format($line['product']->getPrice(), 0, ',', '.')]) }}
                                 </div>
                             </div>
 
                             <span>
-                                ${{ number_format($line['subtotal'], 0, ',', '.') }} COP
+                                {{ __('common.money', ['amount' => number_format($line['subtotal'], 0, ',', '.')]) }}
                             </span>
                         </div>
                     @endforeach
 
                     <h4 class="text-end mt-3">
-                        Total: ${{ number_format($viewData['total'], 0, ',', '.') }} COP
+                        {{ __('common.total_label') }} {{ __('common.money', ['amount' => number_format($viewData['total'], 0, ',', '.')]) }}
                     </h4>
 
                     <button type="submit" class="btn btn-primary w-100 mt-3">
-                        Pagar ahora
+                        {{ __('checkout/index.pagar_ahora') }}
                     </button>
                 </div>
             </div>

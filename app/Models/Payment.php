@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Utils\EnumLabel;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -65,6 +66,11 @@ class Payment extends Model
         return $this->attributes['method'];
     }
 
+    public function getMethodLabel(): string
+    {
+        return EnumLabel::for('models/Payment.method', $this->getMethod());
+    }
+
     public function setMethod(string $method): void
     {
         $this->attributes['method'] = $method;
@@ -93,6 +99,11 @@ class Payment extends Model
     public function getStatus(): string
     {
         return $this->attributes['status'];
+    }
+
+    public function getStatusLabel(): string
+    {
+        return EnumLabel::for('models/Payment.status', $this->getStatus());
     }
 
     public function setStatus(string $status): void

@@ -2,14 +2,14 @@
 
 @section('title', $viewData['title'])
 
-@section('subtitle', 'Historial de pedidos')
+@section('subtitle', __('order/index.historial_de_pedidos'))
 
 @section('content')
 <div class="d-flex justify-content-between align-items-center mb-4">
-    <h3 class="mb-0">Pedidos</h3>
+    <h3 class="mb-0">{{ __('order/index.pedidos') }}</h3>
 
     <a href="{{ route('product.index') }}" class="btn btn-primary">
-        Seguir comprando
+        {{ __('order/index.seguir_comprando') }}
     </a>
 </div>
 
@@ -24,14 +24,14 @@
                                 href="{{ route('order.show', ['id' => $order->getId()]) }}"
                                 class="text-decoration-none"
                             >
-                                Pedido {{ $order->getCode() }}
+                                {{ __('common.order_code', ['code' => $order->getCode()]) }}
                             </a>
                         </h5>
-                        <span class="fw-bold">{{ $order->getStatus() }}</span>
+                        <span class="fw-bold">{{ $order->getStatusLabel() }}</span>
                     </div>
 
                     <p class="card-text mt-2">
-                        ${{ number_format($order->getTotal(), 0, ',', '.') }} COP
+                        {{ __('common.money', ['amount' => number_format($order->getTotal(), 0, ',', '.')]) }}
                         · {{ $order->items_count }} {{ $order->items_count === 1 ? 'producto' : 'productos' }}
                     </p>
 
@@ -43,9 +43,9 @@
         </div>
     @empty
         <div class="col-12 text-center py-5">
-            <h4>No tienes pedidos</h4>
+            <h4>{{ __('order/index.no_tienes_pedidos') }}</h4>
             <p class="text-muted">
-                Todavía no has realizado ningún pedido.
+                {{ __('order/index.todavia_no_has_realizado') }}
             </p>
         </div>
     @endforelse

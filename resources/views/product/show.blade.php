@@ -28,7 +28,7 @@
 
             <div class="card-body p-4">
 
-                <h4 class="mb-3">Detalles del producto</h4>
+                <h4 class="mb-3">{{ __('product/show.detalles_del_producto') }}</h4>
 
                 <p class="text-muted">
                     {{ $viewData['product']->getDescription() }}
@@ -37,32 +37,32 @@
                 <hr>
 
                 <p>
-                    <strong>Precio:</strong>
-                    ${{ number_format($viewData['product']->getPrice(), 0, ',', '.') }} COP
+                    <strong>{{ __('product/show.precio') }}</strong>
+                    {{ __('common.money', ['amount' => number_format($viewData['product']->getPrice(), 0, ',', '.')]) }}
                 </p>
 
                 <p>
-                    <strong>Unidades disponibles:</strong>
+                    <strong>{{ __('product/show.unidades_disponibles') }}</strong>
                     {{ $viewData['product']->getStock() }}
                 </p>
 
                 <p>
-                    <strong>Formato:</strong>
-                    {{ $viewData['product']->getFormat() }}
+                    <strong>{{ __('product/show.formato') }}</strong>
+                    {{ $viewData['product']->getFormatLabel() }}
                 </p>
 
                 <p>
-                    <strong>Tipo:</strong>
-                    {{ $viewData['product']->getType() }}
+                    <strong>{{ __('product/show.tipo') }}</strong>
+                    {{ $viewData['product']->getTypeLabel() }}
                 </p>
 
                 <p>
-                    <strong>Plataforma:</strong>
+                    <strong>{{ __('product/show.plataforma') }}</strong>
                     {{ $viewData['product']->getPlatform() }}
                 </p>
 
                 <p>
-                    <strong>Categoría:</strong>
+                    <strong>{{ __('product/show.categoria') }}</strong>
 
                     @if ($viewData['product']->getCategory())
                         <a
@@ -73,7 +73,7 @@
                         </a>
                     @else
                         <span class="text-muted">
-                            Sin categoría asignada
+                            {{ __('product/show.sin_categoria_asignada') }}
                         </span>
                     @endif
                 </p>
@@ -100,7 +100,7 @@
                             @csrf
 
                             <div class="col-auto">
-                                <label for="quantity" class="form-label">Cantidad</label>
+                                <label for="quantity" class="form-label">{{ __('common.cantidad') }}</label>
                                 <input
                                     type="number"
                                     name="quantity"
@@ -115,19 +115,19 @@
 
                             <div class="col-auto">
                                 <button type="submit" class="btn btn-primary">
-                                    Agregar al carrito
+                                    {{ __('product/show.agregar_al_carrito') }}
                                 </button>
                             </div>
                         </form>
                     @else
                         <p class="text-muted">
-                            Producto agotado.
+                            {{ __('product/show.producto_agotado') }}
                         </p>
                     @endif
                 @else
                     <p class="text-muted">
-                        <a href="{{ route('login') }}" class="text-decoration-none">Inicia sesión</a>
-                        para agregar este producto al carrito.
+                        <a href="{{ route('login') }}" class="text-decoration-none">{{ __('product/show.inicia_sesion') }}</a>
+                        {{ __('product/show.para_agregar_este_producto') }}
                     </p>
                 @endauth
 
@@ -135,7 +135,7 @@
 
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <h5 class="mb-0">
-                        Reseñas
+                        {{ __('product/show.reviews') }}
                         @if ($viewData['reviewsCount'] > 0)
                             <span class="text-muted small">
                                 · {{ number_format($viewData['averageRating'], 1) }}/5
@@ -149,7 +149,7 @@
                             href="{{ route('review.index', ['product_id' => $viewData['product']->getId()]) }}"
                             class="btn btn-outline-secondary btn-sm"
                         >
-                            Ver todas
+                            {{ __('product/show.ver_todas') }}
                         </a>
 
                         @auth
@@ -157,7 +157,7 @@
                                 href="{{ route('review.create', ['product_id' => $viewData['product']->getId()]) }}"
                                 class="btn btn-primary btn-sm"
                             >
-                                Escribir reseña
+                                {{ __('product/show.escribir_resena') }}
                             </a>
                         @endauth
                     </div>
@@ -166,7 +166,7 @@
                 @forelse ($viewData['reviews'] as $review)
                     <div class="border-bottom border-secondary py-2">
                         <div class="d-flex justify-content-between">
-                            <span class="fw-bold">{{ $review->getUser()?->getName() ?? 'Usuario eliminado' }}</span>
+                            <span class="fw-bold">{{ $review->getUser()?->getName() ?? __('common.user_deleted') }}</span>
                             <span>
                                 {{ str_repeat('★', $review->getRating()) }}{{ str_repeat('☆', 5 - $review->getRating()) }}
                             </span>
@@ -176,7 +176,7 @@
                     </div>
                 @empty
                     <p class="text-muted">
-                        Este producto todavía no tiene reseñas.
+                        {{ __('product/show.este_producto_todavia_no') }}
                     </p>
                 @endforelse
 
@@ -184,7 +184,7 @@
                     href="{{ route('product.index') }}"
                     class="btn btn-outline-secondary mt-3"
                 >
-                    Volver a los productos
+                    {{ __('product/show.volver_a_los_productos') }}
                 </a>
 
             </div>

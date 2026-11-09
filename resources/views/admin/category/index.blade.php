@@ -1,17 +1,17 @@
 
 @extends('admin.layout')
 
-@section('title', 'Administrar categorías')
+@section('title', __('admin/category/index.administrar_categorias'))
 
 @section('content')
 
 <div class="container">
 
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2>Administrar categorías</h2>
+        <h2>{{ __('admin/category/index.administrar_categorias') }}</h2>
 
         <a href="{{ route('admin.category.create') }}" class="btn btn-primary">
-            Crear categoría
+            {{ __('admin/category/index.crear_categoria') }}
         </a>
     </div>
 
@@ -23,11 +23,11 @@
 
                     <thead>
                         <tr>
-                            <th>ID</th>
-                            <th>Imagen</th>
-                            <th>Nombre</th>
-                            <th>Descripción</th>
-                            <th>Acciones</th>
+                            <th>{{ __('common.id') }}</th>
+                            <th>{{ __('admin/category/index.imagen') }}</th>
+                            <th>{{ __('common.nombre') }}</th>
+                            <th>{{ __('common.descripcion') }}</th>
+                            <th>{{ __('common.acciones') }}</th>
                         </tr>
                     </thead>
 
@@ -46,7 +46,7 @@
                                         />
                                     @else
                                         <span class="text-muted">
-                                            Sin imagen
+                                            {{ __('admin/category/index.sin_imagen') }}
                                         </span>
                                     @endif
                                 </td>
@@ -62,26 +62,26 @@
                                             href="{{ route('admin.category.show', ['id' => $category->getId()]) }}"
                                             class="btn btn-info btn-sm"
                                         >
-                                            Ver
+                                            {{ __('common.ver') }}
                                         </a>
 
                                         <a
                                             href="{{ route('admin.category.edit', ['id' => $category->getId()]) }}"
                                             class="btn btn-warning btn-sm"
                                         >
-                                            Editar
+                                            {{ __('common.editar') }}
                                         </a>
 
                                         <form
                                             action="{{ route('admin.category.destroy', ['id' => $category->getId()]) }}"
                                             method="POST"
-                                            onsubmit="return confirm('¿Estás seguro de eliminar esta categoría?')"
+                                            onsubmit="return confirm(@js(__('admin/category/index.confirm_delete')))"
                                         >
                                             @csrf
                                             @method('DELETE')
 
                                             <button type="submit" class="btn btn-danger btn-sm">
-                                                Eliminar
+                                                {{ __('common.eliminar') }}
                                             </button>
                                         </form>
 
@@ -92,7 +92,7 @@
                         @empty
                             <tr>
                                 <td colspan="5" class="text-center py-4">
-                                    No hay categorías registradas.
+                                    {{ __('admin/category/index.no_hay_categorias_registradas') }}
                                 </td>
                             </tr>
                         @endforelse

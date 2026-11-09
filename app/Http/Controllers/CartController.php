@@ -49,7 +49,7 @@ class CartController extends Controller
         $summary = self::summary($request->session()->get(self::SESSION_KEY, []));
 
         $viewData = [
-            'title' => 'Carrito',
+            'title' => __('controllers/CartController.title.index'),
             'lines' => $summary['lines'],
             'total' => $summary['total'],
         ];
@@ -70,7 +70,7 @@ class CartController extends Controller
 
         if ($quantity > $product->getStock()) {
             return back()->withErrors([
-                'quantity' => 'Solo hay '.$product->getStock().' unidades disponibles de '.$product->getTitle().'.',
+                'quantity' => __('controllers/CartController.insufficient_stock', ['stock' => $product->getStock(), 'product' => $product->getTitle()]),
             ]);
         }
 
@@ -78,7 +78,7 @@ class CartController extends Controller
         $request->session()->put(self::SESSION_KEY, $cart);
 
         return redirect()->route('cart.index')
-            ->with('success', 'Producto agregado al carrito.');
+            ->with('success', __('controllers/CartController.added'));
     }
 
     public function remove(Request $request, int $id): RedirectResponse
@@ -88,7 +88,7 @@ class CartController extends Controller
         $request->session()->put(self::SESSION_KEY, $cart);
 
         return redirect()->route('cart.index')
-            ->with('success', 'Producto eliminado del carrito.');
+            ->with('success', __('controllers/CartController.removed'));
     }
 
     public function clear(Request $request): RedirectResponse
@@ -96,6 +96,6 @@ class CartController extends Controller
         $request->session()->forget(self::SESSION_KEY);
 
         return redirect()->route('cart.index')
-            ->with('success', 'Carrito vaciado.');
+            ->with('success', __('controllers/CartController.cleared'));
     }
 }

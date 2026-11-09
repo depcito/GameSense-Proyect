@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="es">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 <head>
     <meta charset="utf-8" />
@@ -10,7 +10,7 @@
         rel="stylesheet"
         crossorigin="anonymous" />
 
-    <title>@yield('title', __('Panel de administración')) - GameSense</title>
+    <title>@yield('title', __('admin/layout.panel_de_administracion')) - GameSense</title>
 
     <style>
         body {
@@ -65,65 +65,65 @@
             <aside class="col-md-3 col-lg-2 admin-sidebar">
 
                 <div class="admin-brand">
-                    GameSense
+                    {{ __('admin/layout.gamesense') }}
                     <small class="d-block text-white-50 fs-6">
-                        Administración
+                        {{ __('admin/layout.administracion') }}
                     </small>
                 </div>
 
                 @auth
                     @if (auth()->user()->getRole() === 'admin')
 
-                        <p class="sidebar-section">Principal</p>
+                        <p class="sidebar-section">{{ __('admin/layout.principal') }}</p>
 
                         <nav class="nav flex-column">
 
                             <a
                                 href="{{ route('home.index') }}"
                                 class="nav-link">
-                                Volver a la tienda
+                                {{ __('admin/layout.volver_a_la_tienda') }}
                             </a>
 
                         </nav>
 
-                        <p class="sidebar-section">Gestión</p>
+                        <p class="sidebar-section">{{ __('admin/layout.gestion') }}</p>
 
                         <nav class="nav flex-column">
 
                             <a
                                 href="{{ route('admin.users.index') }}"
                                 class="nav-link {{ request()->routeIs('admin.users.*') ? 'active' : '' }}">
-                                Administrar usuarios
+                                {{ __('admin/layout.administrar_usuarios') }}
                             </a>
 
                             <a
                                 href="{{ route('admin.category.index') }}"
                                 class="nav-link {{ request()->routeIs('admin.category.*') ? 'active' : '' }}">
-                                Administrar categorías
+                                {{ __('admin/layout.administrar_categorias') }}
                             </a>
 
                             <a
                                 href="{{ route('admin.product.index') }}"
                                 class="nav-link {{ request()->routeIs('admin.product.*') ? 'active' : '' }}">
-                                Administrar productos
+                                {{ __('admin/layout.administrar_productos') }}
                             </a>
 
                             <a
                                 href="{{ route('admin.order.index') }}"
                                 class="nav-link {{ request()->routeIs('admin.order.*') ? 'active' : '' }}">
-                                Administrar pedidos
+                                {{ __('admin/layout.administrar_pedidos') }}
                             </a>
 
                             <a
                                 href="{{ route('admin.payment.index') }}"
                                 class="nav-link {{ request()->routeIs('admin.payment.*') ? 'active' : '' }}">
-                                Administrar pagos
+                                {{ __('admin/layout.administrar_pagos') }}
                             </a>
 
                             <a
                                 href="{{ route('admin.review.index') }}"
                                 class="nav-link {{ request()->routeIs('admin.review.*') ? 'active' : '' }}">
-                                Administrar reseñas
+                                {{ __('admin/layout.administrar_resenas') }}
                             </a>
 
                         </nav>
@@ -137,11 +137,18 @@
                         {{ auth()->user()->name }}
                     </p>
 
+                    @include('layouts.locale-switcher', [
+                        'wrapperClass' => 'dropup mb-2',
+                        'toggleClass' => 'btn btn-outline-light btn-sm w-100 justify-content-center',
+                        'menuClass' => '',
+                        'wrapperId' => 'admin',
+                    ])
+
                     <form method="POST" action="{{ route('logout') }}">
                         @csrf
 
                         <button type="submit" class="btn btn-outline-light btn-sm w-100">
-                            Cerrar sesión
+                            {{ __('admin/layout.cerrar_sesion') }}
                         </button>
                     </form>
 

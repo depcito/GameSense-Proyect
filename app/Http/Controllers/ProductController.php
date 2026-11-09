@@ -10,7 +10,7 @@ class ProductController extends Controller
     public function index(): View
     {
         $viewData = [
-            'title' => 'Products',
+            'title' => __('controllers/ProductController.title.index'),
             'products' => Product::all(),
         ];
 
@@ -22,7 +22,7 @@ class ProductController extends Controller
         $product = Product::findOrFail($id);
 
         $viewData = [
-            'title' => 'Product details',
+            'title' => __('controllers/ProductController.title.show'),
             'product' => $product,
             'reviews' => $product->reviews()->with('user')->latest('date')->latest('id')->take(3)->get(),
             'reviewsCount' => $product->reviews()->count(),

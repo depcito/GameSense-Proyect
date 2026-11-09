@@ -3,7 +3,7 @@
 
 @section('title', $viewData['title'])
 
-@section('subtitle', 'Explora nuestras categorías')
+@section('subtitle', __('category/index.explora_nuestras_categorias'))
 
 @section('content')
 
@@ -31,9 +31,9 @@
         </div>
     @empty
         <div class="col-12 text-center py-5">
-            <h4>No hay categorías disponibles</h4>
+            <h4>{{ __('category/index.no_hay_categorias_disponibles') }}</h4>
             <p class="text-muted">
-                Todavía no hay categorías para mostrar.
+                {{ __('category/index.todavia_no_hay_categorias') }}
             </p>
         </div>
     @endforelse
