@@ -57,14 +57,14 @@
 
                     <p>
                         <strong>{{ __('admin/product/show.formato') }}</strong>
-                        {{ $viewData['product']->getFormat() }}
+                        {{ $viewData['product']->getFormatLabel() }}
                     </p>
                 </div>
 
                 <div class="col-md-6">
                     <p>
                         <strong>{{ __('admin/product/show.tipo') }}</strong>
-                        {{ $viewData['product']->getType() }}
+                        {{ $viewData['product']->getTypeLabel() }}
                     </p>
 
                     <p>

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Utils\EnumLabel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -84,6 +85,11 @@ class Product extends Model
         return $this->attributes['format'];
     }
 
+    public function getFormatLabel(): string
+    {
+        return EnumLabel::for('models/Product.format', $this->getFormat());
+    }
+
     public function setFormat(string $format): void
     {
         $this->attributes['format'] = $format;
@@ -92,6 +98,11 @@ class Product extends Model
     public function getType(): string
     {
         return $this->attributes['type'];
+    }
+
+    public function getTypeLabel(): string
+    {
+        return EnumLabel::for('models/Product.type', $this->getType());
     }
 
     public function setType(string $type): void

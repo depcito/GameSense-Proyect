@@ -63,9 +63,9 @@
 
                                 <td>{{ $product->getStock() }}</td>
 
-                                <td>{{ $product->getFormat() }}</td>
+                                <td>{{ $product->getFormatLabel() }}</td>
 
-                                <td>{{ $product->getType() }}</td>
+                                <td>{{ $product->getTypeLabel() }}</td>
 
                                 <td>{{ $product->getPlatform() }}</td>
 

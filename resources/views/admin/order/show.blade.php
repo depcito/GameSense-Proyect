@@ -32,7 +32,7 @@
                 <div class="col-md-6">
                     <p>
                         <strong>{{ __('common.estado_label') }}</strong>
-                        {{ $viewData['order']->getStatus() }}
+                        {{ $viewData['order']->getStatusLabel() }}
                     </p>
                     <p>
                         <strong>{{ __('admin/order/show.total') }}</strong>
@@ -87,9 +87,9 @@
                         <a href="{{ route('admin.payment.show', ['id' => $payment->getId()]) }}">
                             {{ __('common.payment_number', ['id' => $payment->getId()]) }}
                         </a>
-                        · {{ $payment->getMethod() }}
+                        · {{ $payment->getMethodLabel() }}
                         · {{ __('common.money', ['amount' => number_format($payment->getAmount(), 0, ',', '.')]) }}
-                        · {{ $payment->getStatus() }}
+                        · {{ $payment->getStatusLabel() }}
                     </p>
                 @endforeach
             @endif

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Utils\EnumLabel;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -142,6 +143,11 @@ class User extends Authenticatable
     public function getRole(): string
     {
         return $this->attributes['role'];
+    }
+
+    public function getRoleLabel(): string
+    {
+        return EnumLabel::for('models/User.role', $this->getRole());
     }
 
     /**

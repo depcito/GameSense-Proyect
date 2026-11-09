@@ -40,11 +40,11 @@
                     </p>
                     <p>
                         <strong>{{ __('admin/payment/show.metodo') }}</strong>
-                        {{ $viewData['payment']->getMethod() }}
+                        {{ $viewData['payment']->getMethodLabel() }}
                     </p>
                     <p>
                         <strong>{{ __('common.estado_label') }}</strong>
-                        {{ $viewData['payment']->getStatus() }}
+                        {{ $viewData['payment']->getStatusLabel() }}
                     </p>
                 </div>
             </div>

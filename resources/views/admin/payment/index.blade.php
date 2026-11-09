@@ -49,8 +49,8 @@
                                 <td>{{ $payment->getOrder()?->getCode() ?? __('common.order_deleted') }}</td>
                                 <td>{{ $payment->getUser()?->getName() ?? __('common.user_deleted') }}</td>
                                 <td>{{ __('common.money', ['amount' => number_format($payment->getAmount(), 0, ',', '.')]) }}</td>
-                                <td>{{ $payment->getMethod() }}</td>
-                                <td>{{ $payment->getStatus() }}</td>
+                                <td>{{ $payment->getMethodLabel() }}</td>
+                                <td>{{ $payment->getStatusLabel() }}</td>
                                 <td>{{ $payment->getDate()->format('d/m/Y') }}</td>
 
                                 <td>

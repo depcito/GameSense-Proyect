@@ -92,7 +92,7 @@
                             <option value="">{{ __('checkout/index.selecciona_un_metodo') }}</option>
                             @foreach ($viewData['methods'] as $method)
                                 <option value="{{ $method }}" @selected(old('method') == $method)>
-                                    {{ $method }}
+                                    {{ App\Utils\EnumLabel::for('models/Payment.method', $method) }}
                                 </option>
                             @endforeach
                         </select>

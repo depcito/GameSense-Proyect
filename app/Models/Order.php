@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Utils\EnumLabel;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
@@ -71,6 +72,11 @@ class Order extends Model
     public function getStatus(): string
     {
         return $this->attributes['status'];
+    }
+
+    public function getStatusLabel(): string
+    {
+        return EnumLabel::for('models/Order.status', $this->getStatus());
     }
 
     public function setStatus(string $status): void

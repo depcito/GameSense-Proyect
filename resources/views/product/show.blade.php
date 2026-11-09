@@ -48,12 +48,12 @@
 
                 <p>
                     <strong>{{ __('product/show.formato') }}</strong>
-                    {{ $viewData['product']->getFormat() }}
+                    {{ $viewData['product']->getFormatLabel() }}
                 </p>
 
                 <p>
                     <strong>{{ __('product/show.tipo') }}</strong>
-                    {{ $viewData['product']->getType() }}
+                    {{ $viewData['product']->getTypeLabel() }}
                 </p>
 
                 <p>

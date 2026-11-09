@@ -27,7 +27,7 @@
                                 {{ __('common.order_code', ['code' => $order->getCode()]) }}
                             </a>
                         </h5>
-                        <span class="fw-bold">{{ $order->getStatus() }}</span>
+                        <span class="fw-bold">{{ $order->getStatusLabel() }}</span>
                     </div>
 
                     <p class="card-text mt-2">

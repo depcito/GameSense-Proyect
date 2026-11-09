@@ -50,7 +50,7 @@
                                 <td>{{ $order->getUser()?->getName() ?? __('common.user_deleted') }}</td>
                                 <td>{{ $order->items_count }}</td>
                                 <td>{{ __('common.money', ['amount' => number_format($order->getTotal(), 0, ',', '.')]) }}</td>
-                                <td>{{ $order->getStatus() }}</td>
+                                <td>{{ $order->getStatusLabel() }}</td>
                                 <td>{{ $order->getDate()->format('d/m/Y') }}</td>
 
                                 <td>

@@ -25,7 +25,7 @@
 
                 <p>
                     <strong>{{ __('common.estado_label') }}</strong>
-                    {{ $viewData['order']->getStatus() }}
+                    {{ $viewData['order']->getStatusLabel() }}
                 </p>
 
                 <p>
@@ -75,9 +75,9 @@
 
                     @foreach ($viewData['order']->payments as $payment)
                         <p class="mb-1">
-                            {{ $payment->getMethod() }}
+                            {{ $payment->getMethodLabel() }}
                             · {{ __('common.money', ['amount' => number_format($payment->getAmount(), 0, ',', '.')]) }}
-                            · {{ $payment->getStatus() }}
+                            · {{ $payment->getStatusLabel() }}
                             · {{ $payment->getDate()->format('d/m/Y') }}
                         </p>
                     @endforeach

@@ -25,7 +25,7 @@
     <label for="role" class="form-label">{{ __('admin/users/_form.rol') }}</label>
     <select id="role" name="role" class="form-select @error('role') is-invalid @enderror" required>
         @foreach ($roles as $role)
-            <option value="{{ $role }}" @selected(old('role', $user->role ?? 'user') === $role)>{{ $role }}</option>
+            <option value="{{ $role }}" @selected(old('role', $user->role ?? 'user') === $role)>{{ App\Utils\EnumLabel::for('models/User.role', $role) }}</option>
         @endforeach
     </select>
     @error('role')<div class="invalid-feedback">{{ $message }}</div>@enderror
