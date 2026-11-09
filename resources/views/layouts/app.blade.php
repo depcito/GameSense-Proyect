@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="es">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 <head>
     <meta charset="utf-8" />
@@ -57,6 +57,8 @@
                     </a>
 
                     <div class="vr bg-white mx-2 d-none d-lg-block"></div>
+
+                    @include('layouts.locale-switcher', ['wrapperClass' => 'nav-item dropdown', 'wrapperId' => 'nav'])
 
                     @guest
 

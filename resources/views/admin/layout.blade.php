@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="es">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 <head>
     <meta charset="utf-8" />
@@ -136,6 +136,13 @@
                     <p class="text-white-50 small mb-2">
                         {{ auth()->user()->name }}
                     </p>
+
+                    @include('layouts.locale-switcher', [
+                        'wrapperClass' => 'dropup mb-2',
+                        'toggleClass' => 'btn btn-outline-light btn-sm w-100 justify-content-center',
+                        'menuClass' => '',
+                        'wrapperId' => 'admin',
+                    ])
 
                     <form method="POST" action="{{ route('logout') }}">
                         @csrf
