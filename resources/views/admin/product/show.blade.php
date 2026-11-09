@@ -13,11 +13,11 @@
         <div class="d-flex gap-2">
             <a href="{{ route('admin.product.edit', ['id' => $viewData['product']->getId()]) }}"
                 class="btn btn-warning">
-                Editar producto
+                {{ __('admin/product/show.editar_producto') }}
             </a>
 
             <a href="{{ route('admin.product.index') }}" class="btn btn-secondary">
-                Volver
+                {{ __('common.volver') }}
             </a>
         </div>
     </div>
@@ -36,7 +36,7 @@
     <div class="card shadow-sm">
         <div class="card-body">
 
-            <h5>Descripción</h5>
+            <h5>{{ __('common.descripcion') }}</h5>
             <p class="text-muted">
                 {{ $viewData['product']->getDescription() }}
             </p>
@@ -46,34 +46,34 @@
             <div class="row">
                 <div class="col-md-6">
                     <p>
-                        <strong>Precio:</strong>
-                        ${{ number_format($viewData['product']->getPrice(), 0, ',', '.') }} COP
+                        <strong>{{ __('admin/product/show.precio') }}</strong>
+                        {{ __('common.money', ['amount' => number_format($viewData['product']->getPrice(), 0, ',', '.')]) }}
                     </p>
 
                     <p>
-                        <strong>Stock:</strong>
+                        <strong>{{ __('admin/product/show.stock') }}</strong>
                         {{ $viewData['product']->getStock() }}
                     </p>
 
                     <p>
-                        <strong>Formato:</strong>
+                        <strong>{{ __('admin/product/show.formato') }}</strong>
                         {{ $viewData['product']->getFormat() }}
                     </p>
                 </div>
 
                 <div class="col-md-6">
                     <p>
-                        <strong>Tipo:</strong>
+                        <strong>{{ __('admin/product/show.tipo') }}</strong>
                         {{ $viewData['product']->getType() }}
                     </p>
 
                     <p>
-                        <strong>Plataforma:</strong>
+                        <strong>{{ __('admin/product/show.plataforma') }}</strong>
                         {{ $viewData['product']->getPlatform() }}
                     </p>
 
                     <p>
-                        <strong>Categoría:</strong>
+                        <strong>{{ __('admin/product/show.categoria') }}</strong>
                         {{ $viewData['product']->getCategory()->getName() }}
                     </p>
                 </div>

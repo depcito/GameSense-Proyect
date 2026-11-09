@@ -1,24 +1,24 @@
 @extends('admin.layout')
 
-@section('title', 'Administrar pagos')
+@section('title', __('admin/payment/index.administrar_pagos'))
 
 @section('content')
 
 <div class="container">
 
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2>Administrar pagos</h2>
+        <h2>{{ __('admin/payment/index.administrar_pagos') }}</h2>
     </div>
 
     <form method="GET" action="{{ route('admin.payment.index') }}" class="row g-2 mb-3">
         <div class="col-sm-8 col-md-6">
             <input type="text" name="search" value="{{ $viewData['search'] }}" class="form-control"
-                placeholder="Buscar por pedido, usuario, método o estado">
+                placeholder="{{ __('admin/payment/index.buscar_por_pedido_usuario') }}">
         </div>
         <div class="col-auto">
-            <button class="btn btn-secondary" type="submit">Buscar</button>
+            <button class="btn btn-secondary" type="submit">{{ __('common.buscar') }}</button>
             @if ($viewData['search'] !== '')
-                <a href="{{ route('admin.payment.index') }}" class="btn btn-link">Limpiar</a>
+                <a href="{{ route('admin.payment.index') }}" class="btn btn-link">{{ __('common.limpiar') }}</a>
             @endif
         </div>
     </form>
@@ -31,14 +31,14 @@
 
                     <thead>
                         <tr>
-                            <th>ID</th>
-                            <th>Pedido</th>
-                            <th>Usuario</th>
-                            <th>Monto</th>
-                            <th>Método</th>
-                            <th>Estado</th>
-                            <th>Fecha</th>
-                            <th>Acciones</th>
+                            <th>{{ __('common.id') }}</th>
+                            <th>{{ __('admin/payment/index.pedido') }}</th>
+                            <th>{{ __('common.usuario') }}</th>
+                            <th>{{ __('admin/payment/index.monto') }}</th>
+                            <th>{{ __('admin/payment/index.metodo') }}</th>
+                            <th>{{ __('admin/payment/index.estado') }}</th>
+                            <th>{{ __('common.fecha') }}</th>
+                            <th>{{ __('common.acciones') }}</th>
                         </tr>
                     </thead>
 
@@ -46,9 +46,9 @@
                         @forelse ($viewData['payments'] as $payment)
                             <tr>
                                 <td>{{ $payment->getId() }}</td>
-                                <td>{{ $payment->getOrder()?->getCode() ?? 'Pedido eliminado' }}</td>
-                                <td>{{ $payment->getUser()?->getName() ?? 'Usuario eliminado' }}</td>
-                                <td>${{ number_format($payment->getAmount(), 0, ',', '.') }} COP</td>
+                                <td>{{ $payment->getOrder()?->getCode() ?? __('common.order_deleted') }}</td>
+                                <td>{{ $payment->getUser()?->getName() ?? __('common.user_deleted') }}</td>
+                                <td>{{ __('common.money', ['amount' => number_format($payment->getAmount(), 0, ',', '.')]) }}</td>
                                 <td>{{ $payment->getMethod() }}</td>
                                 <td>{{ $payment->getStatus() }}</td>
                                 <td>{{ $payment->getDate()->format('d/m/Y') }}</td>
@@ -56,14 +56,14 @@
                                 <td>
                                     <a href="{{ route('admin.payment.show', ['id' => $payment->getId()]) }}"
                                         class="btn btn-info btn-sm">
-                                        Ver
+                                        {{ __('common.ver') }}
                                     </a>
                                 </td>
                             </tr>
                         @empty
                             <tr>
                                 <td colspan="8" class="text-center py-4">
-                                    No hay pagos registrados.
+                                    {{ __('admin/payment/index.no_hay_pagos_registrados') }}
                                 </td>
                             </tr>
                         @endforelse

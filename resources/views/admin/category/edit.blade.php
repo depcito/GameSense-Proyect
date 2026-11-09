@@ -8,7 +8,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">Editar categoría</div>
+                <div class="card-header">{{ __('admin/category/edit.editar_categoria') }}</div>
 
                 <div class="card-body">
 
@@ -28,7 +28,7 @@
                         @csrf
                         @method('PUT')
 
-                        <label for="name" class="form-label">Nombre</label>
+                        <label for="name" class="form-label">{{ __('common.nombre') }}</label>
                         <input
                             type="text"
                             class="form-control mb-3"
@@ -38,7 +38,7 @@
                             required
                         />
 
-                        <label for="description" class="form-label">Descripción</label>
+                        <label for="description" class="form-label">{{ __('common.descripcion') }}</label>
                         <textarea
                             class="form-control mb-3"
                             id="description"
@@ -49,7 +49,7 @@
 
                         @if($viewData['category']->getImageUrl())
                             <div class="mb-3">
-                                <p>Imagen actual:</p>
+                                <p>{{ __('admin/category/edit.imagen_actual') }}</p>
 
                                 <img
                                     src="{{ $viewData['category']->getImageUrl() }}"
@@ -60,7 +60,7 @@
                         @endif
 
                         <label for="image" class="form-label">
-                            Seleccionar nueva imagen
+                            {{ __('admin/category/edit.seleccionar_nueva_imagen') }}
                         </label>
 
                         <input
@@ -72,14 +72,14 @@
                         />
 
                         <button type="submit" class="btn btn-primary">
-                            Actualizar categoría
+                            {{ __('admin/category/edit.actualizar_categoria') }}
                         </button>
 
                         <a
                             href="{{ route('admin.category.index') }}"
                             class="btn btn-secondary"
                         >
-                            Cancelar
+                            {{ __('common.cancelar') }}
                         </a>
                     </form>
 

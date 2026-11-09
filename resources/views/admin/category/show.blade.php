@@ -13,11 +13,11 @@
         <div class="d-flex gap-2">
             <a href="{{ route('admin.category.edit', ['id' => $viewData['category']->getId()]) }}"
                 class="btn btn-warning">
-                Editar categoría
+                {{ __('admin/category/show.editar_categoria') }}
             </a>
 
             <a href="{{ route('admin.category.index') }}" class="btn btn-secondary">
-                Volver
+                {{ __('common.volver') }}
             </a>
         </div>
     </div>
@@ -35,14 +35,14 @@
 
     <div class="card shadow-sm mb-4">
         <div class="card-body">
-            <h5>Descripción</h5>
+            <h5>{{ __('common.descripcion') }}</h5>
             <p class="text-muted mb-0">
                 {{ $viewData['category']->getDescription() }}
             </p>
         </div>
     </div>
 
-    <h4 class="mb-3">Productos de esta categoría</h4>
+    <h4 class="mb-3">{{ __('admin/category/show.productos_de_esta_categoria') }}</h4>
 
     <div class="row">
         @forelse ($viewData['category']->getProducts() as $product)
@@ -68,11 +68,11 @@
                         </p>
 
                         <p class="fw-bold mb-0">
-                            Precio: ${{ number_format($product->getPrice(), 0, ',', '.') }} COP
+                            {{ __('common.price_label') }} {{ __('common.money', ['amount' => number_format($product->getPrice(), 0, ',', '.')]) }}
                         </p>
 
                         <p class="text-muted small mb-0">
-                            Stock: {{ $product->getStock() }}
+                            {{ __('common.stock_label') }} {{ $product->getStock() }}
                         </p>
                     </div>
 
@@ -81,7 +81,7 @@
         @empty
             <div class="col-12">
                 <p class="text-muted">
-                    Todavía no hay productos en esta categoría.
+                    {{ __('admin/category/show.todavia_no_hay_productos') }}
                 </p>
             </div>
         @endforelse

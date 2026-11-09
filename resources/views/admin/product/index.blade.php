@@ -1,17 +1,17 @@
 
 @extends('admin.layout')
 
-@section('title', 'Administrar productos')
+@section('title', __('admin/product/index.administrar_productos'))
 
 @section('content')
 
 <div class="container">
 
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2>Administrar productos</h2>
+        <h2>{{ __('admin/product/index.administrar_productos') }}</h2>
 
         <a href="{{ route('admin.product.create') }}" class="btn btn-primary">
-            Crear producto
+            {{ __('admin/product/index.crear_producto') }}
         </a>
     </div>
 
@@ -23,15 +23,15 @@
 
                     <thead>
                         <tr>
-                            <th>ID</th>
-                            <th>Imagen</th>
-                            <th>Producto</th>
-                            <th>Precio</th>
-                            <th>Stock</th>
-                            <th>Formato</th>
-                            <th>Tipo</th>
-                            <th>Plataforma</th>
-                            <th>Acciones</th>
+                            <th>{{ __('common.id') }}</th>
+                            <th>{{ __('admin/product/index.imagen') }}</th>
+                            <th>{{ __('common.producto') }}</th>
+                            <th>{{ __('admin/product/index.precio') }}</th>
+                            <th>{{ __('common.stock') }}</th>
+                            <th>{{ __('common.formato') }}</th>
+                            <th>{{ __('common.tipo') }}</th>
+                            <th>{{ __('common.plataforma') }}</th>
+                            <th>{{ __('common.acciones') }}</th>
                         </tr>
                     </thead>
 
@@ -50,7 +50,7 @@
                                         />
                                     @else
                                         <span class="text-muted">
-                                            Sin imagen
+                                            {{ __('admin/product/index.sin_imagen') }}
                                         </span>
                                     @endif
                                 </td>
@@ -58,7 +58,7 @@
                                 <td>{{ $product->getTitle() }}</td>
 
                                 <td>
-                                    ${{ number_format($product->getPrice(), 0, ',', '.') }} COP
+                                    {{ __('common.money', ['amount' => number_format($product->getPrice(), 0, ',', '.')]) }}
                                 </td>
 
                                 <td>{{ $product->getStock() }}</td>
@@ -76,26 +76,26 @@
                                             href="{{ route('admin.product.show', ['id' => $product->getId()]) }}"
                                             class="btn btn-info btn-sm"
                                         >
-                                            Ver
+                                            {{ __('common.ver') }}
                                         </a>
 
                                         <a
                                             href="{{ route('admin.product.edit', ['id' => $product->getId()]) }}"
                                             class="btn btn-warning btn-sm"
                                         >
-                                            Editar
+                                            {{ __('common.editar') }}
                                         </a>
 
                                         <form
                                             action="{{ route('admin.product.destroy', ['id' => $product->getId()]) }}"
                                             method="POST"
-                                            onsubmit="return confirm('¿Estás seguro de eliminar este producto?')"
+                                            onsubmit="return confirm(@js(__('admin/product/index.confirm_delete')))"
                                         >
                                             @csrf
                                             @method('DELETE')
 
                                             <button type="submit" class="btn btn-danger btn-sm">
-                                                Eliminar
+                                                {{ __('common.eliminar') }}
                                             </button>
                                         </form>
 
@@ -106,7 +106,7 @@
                         @empty
                             <tr>
                                 <td colspan="9" class="text-center py-4">
-                                    No hay productos registrados.
+                                    {{ __('admin/product/index.no_hay_productos_registrados') }}
                                 </td>
                             </tr>
                         @endforelse
