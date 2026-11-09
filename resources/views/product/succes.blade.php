@@ -1,1 +1,1 @@
-<h1>Producto creado satisfactoriamente</h1>
+<h1>{{ __('product/succes.producto_creado_satisfactoriamente') }}</h1>

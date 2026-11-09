@@ -1,1 +1,1 @@
-<h1>Categoria creada satisfactoriamente</h1>
+<h1>{{ __('category/success.categoria_creada_satisfactoriamente') }}</h1>

@@ -31,7 +31,7 @@
 
                     <div class="card-body text-center">
                         <p class="fw-bold mb-0">
-                            Precio: ${{ number_format($product->getPrice(), 0, ',', '.') }} COP
+                            {{ __('common.price_label') }} {{ __('common.money', ['amount' => number_format($product->getPrice(), 0, ',', '.')]) }}
                         </p>
                     </div>
                 </div>
@@ -40,7 +40,7 @@
     @empty
         <div class="col-12">
             <p class="text-muted">
-                Todavía no hay productos en esta categoría.
+                {{ __('category/show.todavia_no_hay_productos') }}
             </p>
         </div>
     @endforelse

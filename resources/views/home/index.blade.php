@@ -1,29 +1,29 @@
 
 @extends('layouts.app')
 
-@section('title', 'GameSense - Inicio')
+@section('title', __('home/index.gamesense_inicio'))
 
 @section('content')
 
 <div class="home-banner mb-5">
-    <h1>Bienvenido a Gamesense</h1>
+    <h1>{{ __('home/index.bienvenido_a_gamesense') }}</h1>
 
     <p>
-        Descubre nuevos videojuegos y encuentra eso que tanto deseas.
+        {{ __('home/index.descubre_nuevos_videojuegos_y') }}
     </p>
 
     <a href="{{ route('product.index') }}" class="btn btn-light">
-        Explorar juegos
+        {{ __('home/index.explorar_juegos') }}
     </a>
 
     <a href="{{ route('category.index') }}" class="btn btn-outline-light">
-        Ver categorías
+        {{ __('home/index.ver_categorias') }}
     </a>
 </div>
 
 <div class="mb-4">
-    <h2>Juegos destacados</h2>
-    <p class="text-muted">Algunos juegos que puedes encontrar en nuestra tienda.</p>
+    <h2>{{ __('home/index.juegos_destacados') }}</h2>
+    <p class="text-muted">{{ __('home/index.algunos_juegos_que_puedes') }}</p>
 </div>
 
 <div class="row">
@@ -41,7 +41,7 @@
 
                     <div class="card-body">
                         <p class="text-muted">
-                            {{ $product->getCategory()?->getName() ?? 'Sin categoría' }}
+                            {{ $product->getCategory()?->getName() ?? __('common.no_category') }}
                         </p>
 
                         <p>
@@ -49,20 +49,20 @@
                         </p>
 
                         <strong>
-                            ${{ number_format($product->getPrice(), 0, ',', '.') }} COP
+                            {{ __('common.money', ['amount' => number_format($product->getPrice(), 0, ',', '.')]) }}
                         </strong>
                     </div>
                 </div>
             </a>
         </div>
     @empty
-        <p class="text-muted">Todavía no hay juegos disponibles.</p>
+        <p class="text-muted">{{ __('home/index.todavia_no_hay_juegos') }}</p>
     @endforelse
 </div>
 
 <div class="mb-4 mt-4">
-    <h2>Explora por categoría</h2>
-    <p class="text-muted">Encuentra juegos según tus gustos.</p>
+    <h2>{{ __('home/index.explora_por_categoria') }}</h2>
+    <p class="text-muted">{{ __('home/index.encuentra_juegos_segun_tus') }}</p>
 </div>
 
 <div class="row">
@@ -83,7 +83,7 @@
             </a>
         </div>
     @empty
-        <p class="text-muted">Todavía no hay categorías disponibles.</p>
+        <p class="text-muted">{{ __('home/index.todavia_no_hay_categorias') }}</p>
     @endforelse
 </div>
 

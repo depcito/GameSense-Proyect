@@ -2,14 +2,14 @@
 
 @section('title', $viewData['title'])
 
-@section('subtitle', 'Cuéntanos qué te pareció el producto')
+@section('subtitle', __('review/create.cuentanos_que_te_parecio'))
 
 @section('content')
 <div class="row">
     <div class="col-lg-8 mx-auto">
         <div class="card border-0 shadow-sm">
             <div class="card-body p-4">
-                <h4 class="mb-4">Nueva reseña</h4>
+                <h4 class="mb-4">{{ __('review/create.nueva_resena') }}</h4>
 
                 @if ($errors->any())
                     <div class="alert alert-danger">
@@ -25,9 +25,9 @@
                     @csrf
 
                     <div class="mb-3">
-                        <label for="product_id" class="form-label">Producto</label>
+                        <label for="product_id" class="form-label">{{ __('common.producto') }}</label>
                         <select name="product_id" id="product_id" class="form-select" required>
-                            <option value="">Selecciona un producto</option>
+                            <option value="">{{ __('review/create.selecciona_un_producto') }}</option>
                             @foreach ($viewData['products'] as $product)
                                 <option
                                     value="{{ $product->getId() }}"
@@ -40,9 +40,9 @@
                     </div>
 
                     <div class="mb-3">
-                        <label for="rating" class="form-label">Calificación</label>
+                        <label for="rating" class="form-label">{{ __('review/create.calificacion') }}</label>
                         <select name="rating" id="rating" class="form-select" required>
-                            <option value="">Selecciona una calificación</option>
+                            <option value="">{{ __('review/create.selecciona_una_calificacion') }}</option>
                             @for ($i = 5; $i >= 1; $i--)
                                 <option value="{{ $i }}" @selected(old('rating') == $i)>
                                     {{ str_repeat('★', $i) }} ({{ $i }})
@@ -52,7 +52,7 @@
                     </div>
 
                     <div class="mb-3">
-                        <label for="comment" class="form-label">Comentario</label>
+                        <label for="comment" class="form-label">{{ __('review/create.comentario') }}</label>
                         <textarea
                             name="comment"
                             id="comment"
@@ -63,11 +63,11 @@
                         >{{ old('comment') }}</textarea>
                     </div>
 
-                    <button type="submit" class="btn btn-primary">Publicar reseña</button>
+                    <button type="submit" class="btn btn-primary">{{ __('review/create.publicar_resena') }}</button>
                     <a
                         href="{{ $viewData['selectedProductId'] ? route('product.show', ['id' => $viewData['selectedProductId']]) : route('product.index') }}"
                         class="btn btn-outline-secondary"
-                    >Cancelar</a>
+                    >{{ __('common.cancelar') }}</a>
                 </form>
             </div>
         </div>

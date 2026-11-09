@@ -3,7 +3,7 @@
 
 @section('title', $viewData['title'])
 
-@section('subtitle', 'Explora nuestros productos')
+@section('subtitle', __('product/index.explora_nuestros_productos'))
 
 @section('content')
 
@@ -39,15 +39,15 @@
                         </p>
 
                         <p class="fw-bold mb-1">
-                            Precio: ${{ number_format($product->getPrice(), 0, ',', '.') }} COP
+                            {{ __('common.price_label') }} {{ __('common.money', ['amount' => number_format($product->getPrice(), 0, ',', '.')]) }}
                         </p>
 
                         <p class="text-muted small mb-0">
-                            Unidades disponibles: {{ $product->getStock() }}
+                            {{ __('common.available_units_label') }} {{ $product->getStock() }}
                         </p>
 
                         <span class="btn btn-primary mt-3">
-                            Ver producto
+                            {{ __('product/index.ver_producto') }}
                         </span>
 
                     </div>
@@ -57,9 +57,9 @@
         </div>
     @empty
         <div class="col-12 text-center py-5">
-            <h4>No hay productos disponibles</h4>
+            <h4>{{ __('product/index.no_hay_productos_disponibles') }}</h4>
             <p class="text-muted">
-                Todavía no hay productos para mostrar.
+                {{ __('product/index.todavia_no_hay_productos') }}
             </p>
         </div>
     @endforelse
