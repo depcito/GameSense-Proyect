@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\LocaleController;
 use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -11,6 +12,10 @@ Auth::routes();
 // Home
 Route::get('/', [HomeController::class, 'index'])
     ->name('home.index');
+
+// Language
+Route::post('/locale', [LocaleController::class, 'update'])
+    ->name('locale.update');
 
 // Categories
 Route::get('/categories', [CategoryController::class, 'index'])
