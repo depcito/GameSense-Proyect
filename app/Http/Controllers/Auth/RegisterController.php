@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Auth;
-
+use Illuminate\Support\Facades\Http;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -46,13 +46,40 @@ class RegisterController extends Controller
      * @return \Illuminate\Contracts\Validation\Validator
      */
     protected function validator(array $data)
-    {
-        return Validator::make($data, [
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
-        ]);
-    }
+{
+    $validator = Validator::make($data, [
+        'name' => ['required', 'string', 'max:255'],
+        'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+        'password' => ['required', 'string', 'min:8', 'confirmed'],
+        'g-recaptcha-response' => ['required'],
+    ], [
+        'g-recaptcha-response.required' => 'Debes completar el CAPTCHA.',
+    ]);
+
+    $validator->after(function ($validator) use ($data) {
+
+        if ($validator->errors()->has('g-recaptcha-response')) {
+            return;
+        }
+
+        $response = Http::asForm()->post(
+            'https://www.google.com/recaptcha/api/siteverify',
+            [
+                'secret' => config('services.recaptcha.secret_key'),
+                'response' => $data['g-recaptcha-response'],
+            ]
+        );
+
+        if (!$response->successful() || !$response->json('success')) {
+            $validator->errors()->add(
+                'g-recaptcha-response',
+                'La verificación CAPTCHA no fue válida. Inténtalo nuevamente.'
+            );
+        }
+    });
+
+    return $validator;
+}
 
     /**
      * Create a new user instance after a valid registration.
