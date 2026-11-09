@@ -33,7 +33,7 @@ class PaymentController extends Controller
             ->withQueryString();
 
         $viewData = [
-            'title' => 'Manage Payments',
+            'title' => __('controllers/Admin/PaymentController.title.index'),
             'payments' => $payments,
             'search' => $search,
         ];
@@ -44,7 +44,7 @@ class PaymentController extends Controller
     public function show(int $id): View
     {
         $viewData = [
-            'title' => 'Payment Details',
+            'title' => __('controllers/Admin/PaymentController.title.show'),
             'payment' => Payment::with(['order', 'user'])->findOrFail($id),
         ];
 

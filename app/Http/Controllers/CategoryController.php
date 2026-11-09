@@ -11,7 +11,7 @@ class CategoryController extends Controller
     public function index(): View
     {
         $viewData = [
-            'title' => 'Categories',
+            'title' => __('controllers/CategoryController.title.index'),
             'categories' => Category::all(),
         ];
 
@@ -20,7 +20,7 @@ class CategoryController extends Controller
 
     public function create(): View
     {
-        $viewData = ['title' => 'Categories'];
+        $viewData = ['title' => __('controllers/CategoryController.title.index')];
 
         return view('category.create', ['viewData' => $viewData]);
     }
@@ -38,7 +38,7 @@ class CategoryController extends Controller
     public function show(int $id): View
     {
         $viewData = [
-            'title' => 'Detalles de la categoría',
+            'title' => __('controllers/CategoryController.title.show'),
             'category' => Category::with('products')->findOrFail($id),
         ];
 

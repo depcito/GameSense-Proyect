@@ -29,7 +29,7 @@ class ProductController extends Controller
             ->withQueryString();
 
         $viewData = [
-            'title' => 'Manage Products',
+            'title' => __('controllers/Admin/ProductController.title.index'),
             'products' => $products,
             'search' => $search,
         ];
@@ -40,7 +40,7 @@ class ProductController extends Controller
     public function create(): View
     {
         $viewData = [
-            'title' => 'Create Product',
+            'title' => __('controllers/Admin/ProductController.title.create'),
             'categories' => Category::all(),
         ];
 
@@ -89,13 +89,13 @@ class ProductController extends Controller
         $product->save();
 
         return redirect()->route('admin.product.index')
-            ->with('success', 'Producto creado correctamente.');
+            ->with('success', __('controllers/Admin/ProductController.created'));
     }
 
     public function show(int $id): View
     {
         $viewData = [
-            'title' => 'Product Details',
+            'title' => __('controllers/Admin/ProductController.title.show'),
             'product' => Product::with('category')->findOrFail($id),
         ];
 
@@ -105,7 +105,7 @@ class ProductController extends Controller
     public function edit(int $id): View
     {
         $viewData = [
-            'title' => 'Edit Product',
+            'title' => __('controllers/Admin/ProductController.title.edit'),
             'product' => Product::findOrFail($id),
             'categories' => Category::all(),
         ];
@@ -156,7 +156,7 @@ class ProductController extends Controller
         $product->save();
 
         return redirect()->route('admin.product.index')
-            ->with('success', 'Producto actualizado correctamente.');
+            ->with('success', __('controllers/Admin/ProductController.updated'));
     }
 
     public function destroy(int $id): RedirectResponse
@@ -165,6 +165,6 @@ class ProductController extends Controller
         $product->delete();
 
         return redirect()->route('admin.product.index')
-            ->with('success', 'Producto eliminado correctamente.');
+            ->with('success', __('controllers/Admin/ProductController.deleted'));
     }
 }

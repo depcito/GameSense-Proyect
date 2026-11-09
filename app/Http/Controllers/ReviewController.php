@@ -25,7 +25,7 @@ class ReviewController extends Controller
         }
 
         $viewData = [
-            'title' => 'Reseñas',
+            'title' => __('controllers/ReviewController.title.index'),
             'reviews' => $query->get(),
             'product' => $product,
         ];
@@ -36,7 +36,7 @@ class ReviewController extends Controller
     public function create(Request $request): View
     {
         $viewData = [
-            'title' => 'Crear reseña',
+            'title' => __('controllers/ReviewController.title.create'),
             'products' => Product::all(),
             'selectedProductId' => $request->input('product_id'),
         ];
@@ -65,13 +65,13 @@ class ReviewController extends Controller
 
         return redirect()
             ->route('review.index', ['product_id' => $validated['product_id']])
-            ->with('success', 'Reseña publicada correctamente.');
+            ->with('success', __('controllers/ReviewController.published'));
     }
 
     public function show(int $id): View
     {
         $viewData = [
-            'title' => 'Detalle de la reseña',
+            'title' => __('controllers/ReviewController.title.show'),
             'review' => Review::with(['user', 'product'])->findOrFail($id),
         ];
 
@@ -92,6 +92,6 @@ class ReviewController extends Controller
 
         return redirect()
             ->route('review.index', ['product_id' => $productId])
-            ->with('success', 'Reseña eliminada correctamente.');
+            ->with('success', __('controllers/ReviewController.deleted'));
     }
 }

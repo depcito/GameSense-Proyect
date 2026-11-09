@@ -20,7 +20,7 @@ class ItemController extends Controller
         $order = $this->ownedOrder((int) $request->input('order_id'));
 
         $viewData = [
-            'title' => 'Items del pedido',
+            'title' => __('controllers/ItemController.title.index'),
             'order' => $order,
             'items' => Item::with('product')->where('order_id', $order->getId())->get(),
         ];
@@ -33,7 +33,7 @@ class ItemController extends Controller
         $order = $this->ownedOrder((int) $request->input('order_id'));
 
         $viewData = [
-            'title' => 'Agregar item',
+            'title' => __('controllers/ItemController.title.create'),
             'order' => $order,
             'products' => Product::all(),
             'selectedProductId' => $request->input('product_id'),
@@ -74,7 +74,7 @@ class ItemController extends Controller
         $this->ownedOrder($item->order_id);
 
         $viewData = [
-            'title' => 'Detalle del item',
+            'title' => __('controllers/ItemController.title.show'),
             'item' => $item,
         ];
 

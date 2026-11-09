@@ -33,7 +33,7 @@ class ReviewController extends Controller
             ->withQueryString();
 
         $viewData = [
-            'title' => 'Manage Reviews',
+            'title' => __('controllers/Admin/ReviewController.title.index'),
             'reviews' => $reviews,
             'search' => $search,
         ];
@@ -47,6 +47,6 @@ class ReviewController extends Controller
         $review->delete();
 
         return redirect()->route('admin.review.index')
-            ->with('success', 'Reseña eliminada correctamente.');
+            ->with('success', __('controllers/Admin/ReviewController.deleted'));
     }
 }

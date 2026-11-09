@@ -54,7 +54,7 @@ class UserController extends Controller
         User::create($data);
 
         return redirect()->route('admin.users.index')
-            ->with('success', 'Usuario creado correctamente.');
+            ->with('success', __('controllers/Admin/UserController.created'));
     }
 
     public function edit(User $user): View
@@ -77,7 +77,7 @@ class UserController extends Controller
 
         if ($user->is($request->user()) && $data['role'] !== 'admin') {
             return back()->withInput()
-                ->withErrors(['role' => 'No puedes quitarte el rol de administrador a ti mismo.']);
+                ->withErrors(['role' => __('controllers/Admin/UserController.cannot_demote_self')]);
         }
 
         if (empty($data['password'])) {
@@ -87,19 +87,19 @@ class UserController extends Controller
         $user->update($data);
 
         return redirect()->route('admin.users.index')
-            ->with('success', 'Usuario actualizado correctamente.');
+            ->with('success', __('controllers/Admin/UserController.updated'));
     }
 
     public function destroy(Request $request, User $user): RedirectResponse
     {
         if ($user->is($request->user())) {
             return redirect()->route('admin.users.index')
-                ->with('error', 'No puedes eliminar tu propia cuenta.');
+                ->with('error', __('controllers/Admin/UserController.cannot_delete_self'));
         }
 
         $user->delete();
 
         return redirect()->route('admin.users.index')
-            ->with('success', 'Usuario eliminado correctamente.');
+            ->with('success', __('controllers/Admin/UserController.deleted'));
     }
 }
