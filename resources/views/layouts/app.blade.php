@@ -22,7 +22,7 @@
         <div class="container">
 
             <a class="navbar-brand d-flex align-items-center" href="{{ route('home.index') }}">
-                <img src="{{ asset('logo.png') }}"
+                <img src="{{ asset('game_sense_logo.png') }}"
                     alt="{{ __('layouts/app.gamesense') }}"
                     height="120"
                     class="d-inline-block align-text-top">
