@@ -55,7 +55,7 @@
                         {{ __('common.productos') }}
                     </a>
 
-                    <a class="nav-link" href="#">
+                    <a class="nav-link" href="{{ route('contact') }}">
                         {{ __('layouts/app.contactanos') }}
                     </a>
 

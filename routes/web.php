@@ -86,3 +86,5 @@ Route::middleware('auth')->group(function () {
         ->whereNumber('id')
         ->name('review.delete');
 });
+// contact 
+Route::view('/contact', 'home.contact')->name('contact');
