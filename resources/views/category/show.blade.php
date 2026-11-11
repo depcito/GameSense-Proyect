@@ -1,4 +1,3 @@
-
 @extends('layouts.app')
 
 @section('title', $viewData['title'])
@@ -23,13 +22,18 @@
                 class="text-decoration-none text-reset"
             >
                 <div class="card h-100 border-0 shadow-sm category-card">
-                    <div class="category-cover d-flex align-items-center justify-content-center">
-                        <h4 class="category-name text-center">
-                            {{ $product->getTitle() }}
-                        </h4>
-                    </div>
+                    <img
+                        src="https://storage.googleapis.com/gamesense/{{ $product->getImage() }}"
+                        alt="{{ $product->getTitle() }}"
+                        class="card-img-top"
+                        style="height: 300px; object-fit: cover;"
+                    >
 
                     <div class="card-body text-center">
+                        <h4 class="category-name">
+                            {{ $product->getTitle() }}
+                        </h4>
+
                         <p class="fw-bold mb-0">
                             {{ __('common.price_label') }} {{ __('common.money', ['amount' => number_format($product->getPrice(), 0, ',', '.')]) }}
                         </p>
